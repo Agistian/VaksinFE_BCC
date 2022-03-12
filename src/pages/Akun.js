@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import styled from 'styled-components';
 import HideAppBar from '../components/OtherNav';
 import Footer from '../components/Footer';
@@ -71,8 +71,14 @@ const style = {
     p: 4,
   };
 
+
+
 const Akun = () => {
     // http://intern-bcc-3.ap-southeast-1.elasticbeanstalk.com/
+    const axios = require("axios");
+
+    
+    
     
     const [form, setForm] = useState('');
 	const [isError, setIsError] = useState({ status: false, message: '' });
@@ -87,13 +93,27 @@ const Akun = () => {
 
     const [post, setPost] = React.useState(null);
     console.log(authToken);
+
+    axios({
+        method: "get",
+        url: "http://localhost:5000/user",
+        headers:{
+            'Access-Control-Allow-Headers': '*',
+            'Access-Control-Allow-Origin': '*',
+		    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+            Authorization: `Bearer ${authToken}`}
+     })
+        .then(function(response){
+            console.log(response.data);
+        });
    
-    axios.get(`http://localhost:5000/user`, {
-        headers: { Authorization: `Bearer ${authToken}` },
-        }).then((res) => {
-        console.log(res);
-    // setPost(response.data);
-    }).catch(err => console.log(err.res));
+
+    // axios(`http://localhost:5000/user`, {
+    //     headers: {Authorization: `Bearer ${authToken}`},
+    //     }).then((res) => {
+    //     console.log(res);
+    // // setPost(response.data);
+    // }).catch(err => console.log(err.res));
     // console.log(post);
     //user
 
@@ -159,7 +179,7 @@ const Akun = () => {
                                 
                                 <MainForm>
                                     <div style={{ marginLeft:'2em'}}>
-                                        <MainButton onClick={() => navigate("/editakun")} style={{marginLeft:'75%',width:'20%', height:'50px', marginTop:'0px', paddingTop:'0px', paddingBottom:'0px', fontSize:'17px'}}>Edit Profile</MainButton>
+                                        <MainButton style={{marginLeft:'75%',width:'20%', height:'50px', marginTop:'0px', paddingTop:'0px', paddingBottom:'0px', fontSize:'17px'}}>Edit Profile</MainButton>
                                     </div>
                                     <div style={{display:'flex', justifyContent:'left',borderRadius:'10px',marginLeft:'3em', marginTop:'2em',paddingTop:'2em', paddingBottom:'2em', marginRight:'3em'}}>
                                         <div>

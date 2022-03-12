@@ -53,6 +53,12 @@ const Login = () => {
 	const [isError, setIsError] = useState({ status: false, message: '' });
 	const navigate = useNavigate();
 
+	const google = async (e) => {
+		const googleLogin = await axios.get('http://localhost:5000/user/google');
+		const token = googleLogin.data.data.token;
+		console.log(token);
+	}
+
 	const handleLogin = async (e) => {
 		e.preventDefault()
 		console.log(forms);
@@ -94,7 +100,7 @@ const Login = () => {
 			<Wrapper>
 				<Title className='Poppins'>Sign in</Title>
                 <SubTitle className='Poppins'>Welcome back! Please enter your details</SubTitle>
-				<MainForm onSubmit={handleLogin}>
+				<MainForm style={{marginBottom:'0px'}} onSubmit={handleLogin}>
 					<div className='Bagi'>
 						<Teks style={{fontWeight: 'bold', marginBottom: '10px'}}>Email</Teks><Teks style={{color: 'red', marginLeft: '3px'}}> *</Teks>
 					</div>
@@ -134,10 +140,8 @@ const Login = () => {
 						<Teks style={{color: '#404040'}}>Or</Teks>
 						<div className='line'></div>
 					</div>
-
-                    <GButton><img src={ikon} alt="Logo"/>Sign in with Google</GButton>
-
 				</MainForm>
+				<GButton onClick={google} style={{marginTop:'0px'}}><img src={ikon} alt="Logo"/>Sign in with Google</GButton>
 
                 <Teks className="Poppins" style={{color: '#006c80', fontWeight: 'bold',textAlign: 'center'}}>
                 Don't have account? 
