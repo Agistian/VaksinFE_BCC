@@ -31,6 +31,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { makeStyles } from '@mui/styles';
 import '../App.css';
 import styled from 'styled-components';
+import Alert from 'react-bootstrap/Alert';
 
 
   function HideOnScroll(props) {
@@ -206,7 +207,7 @@ import styled from 'styled-components';
       setAnchorElUser2(null);
     };
     
-    const { setAndGetTokens } = useAuth();
+    const { setAndGetTokens, ketId} = useAuth();
     
     const isAnyToken = JSON.parse(localStorage.getItem('token'));
     // console.log(isAnyToken);
@@ -215,124 +216,129 @@ import styled from 'styled-components';
       console.log('oke');
       setAndGetTokens();
       localStorage.clear();
+      alert("Berhasil Keluar");
+      window.location.reload(false);
       navigate('/', { replace: true });
+      
     };
 
-
     const navigate = useNavigate()
-    return (
-        <React.Fragment >
-        <CssBaseline />
-        <HideOnScroll {...props}>
-            <AppBar style={{boxShadow: '0px 0px 0px', backgroundColor: '#E3E3FB'}}>
-              <Toolbar style={{paddingTop:'30px',paddingLeft:'50px', display:'flex', justifyContent: 'space-between'}}>
-                <Typography variant="h3" component="div" style={{  fontFamily: 'OpenSans-Bold',color: 'black'}}>
-                  B-HEALTH
-                </Typography>
+   
+      return (
+          <React.Fragment >
+          <CssBaseline />
+          <HideOnScroll {...props}>
+              
+              <AppBar style={{boxShadow: '0px 0px 0px', backgroundColor: '#E3E3FB'}}>
+                <Toolbar style={{paddingTop:'30px',paddingLeft:'50px', display:'flex', justifyContent: 'space-between'}}>
+                  <Typography variant="h3" component="div" style={{  fontFamily: 'OpenSans-Bold',color: 'black'}}>
+                    B-HEALTH
+                  </Typography>
 
-                <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent:'right' }}>
-                    <Button
-                      onClick={() => navigate("/")}
-                      sx={{ my: 2, color: 'black', display: 'block', paddingTop:'7.5px', fontFamily: 'OpenSans-Bold'}}
-                      style={{fontSize: '1.5em'}}
-                    >HOME
-                    </Button>
-                    
-                    
-                    <Button
-                      onClick={handleOpenUserMenu}
-                      sx={{ my: 2, color: 'black', display: 'block', fontSize: '1.5em', fontFamily: 'OpenSans-Bold'}}
-                    >Informasi <ExpdIcon />
-                    </Button>
-          
-
-                  <Menu
-                    sx={{ mt: '45px' }}
-                    id="menu-appbar"
-                    anchorEl={anchorElUser}
-                    anchorOrigin={{
-                      vertical: 'top',
-                      horizontal: 'right',
-                    }}
-                    keepMounted
-                    transformOrigin={{
-                      vertical: 'top',
-                      horizontal: 'right',
-                    }}
-                    open={Boolean(anchorElUser)}
-                    onClose={handleCloseUserMenu}
-                  >
-                    <MenuItem onClick={() => navigate("/laypol")}>
-                    <Typography textAlign="center" style={{fontSize:'15px'}}>Layanan Poli</Typography>
-                    </MenuItem>
-                    <MenuItem onClick={() => navigate("/swab")}>
-                    <Typography textAlign="center" style={{fontSize:'15px'}}>Layanan Swab</Typography>
-                    </MenuItem>
-                    <MenuItem onClick={() => navigate("/jadpol")}>
-                    <Typography textAlign="center" style={{fontSize:'15px'}}>Jadwal Poli</Typography>
-                    </MenuItem>
-                  </Menu>
-                </Box>  
+                  <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent:'right' }}>
+                      <Button
+                        onClick={() => navigate("/")}
+                        sx={{ my: 2, color: 'black', display: 'block', paddingTop:'7.5px', fontFamily: 'OpenSans-Bold'}}
+                        style={{fontSize: '1.5em'}}
+                      >HOME
+                      </Button>
                       
-                { isAnyToken == null ? (
-                  <Button2 onClick={() => navigate("/login")}  style={{marginLeft:'5px', fontFamily: 'OpenSans-Bold', fontSize:'1.5em'}}
-                  >SIGN IN</Button2>
-                ):(
-                  <Button2
-                    onClick={handleOpenUserMenu2}
-                    className={classes.button}
-                    style={{marginLeft:'10px', my: 2, display: 'block', fontSize: '1.5em', fontFamily: 'OpenSans-Bold',width:'150px'}}
-                  >Gabriella Evan <ExpdIcon />
-                  </Button2>
-                )}
+                      
+                      <Button
+                        onClick={handleOpenUserMenu}
+                        sx={{ my: 2, color: 'black', display: 'block', fontSize: '1.5em', fontFamily: 'OpenSans-Bold'}}
+                      >Informasi <ExpdIcon />
+                      </Button>
+            
 
-                  <Menu
-                    sx={{ mt: '45px' }}
-                    id="menu-appbar"
-                    anchorEl={anchorElUser2}
-                    anchorOrigin={{
-                      vertical: 'top',
-                      horizontal: 'right',
-                    }}
-                    keepMounted
-                    transformOrigin={{
-                      vertical: 'top',
-                      horizontal: 'right',
-                    }}
-                    open={Boolean(anchorElUser2)}
-                    onClose={handleCloseUserMenu2}
-                  >
-                    <MenuItem onClick={() => navigate("/akun")}>
-                    <Typography textAlign="center" style={{fontSize:'15px'}}>Akun Saya</Typography>
-                    </MenuItem>
-                    <MenuItem onClick={() => navigate("/riwayatvak")}>
-                    <Typography textAlign="center" style={{fontSize:'15px'}}>Riwayat Vaksin</Typography>
-                    </MenuItem>
-                    <MenuItem onClick={() => navigate("/riwayattran")}>
-                    <Typography textAlign="center" style={{fontSize:'15px'}}>Riwayat Transaksi</Typography>
-                    </MenuItem>
-                    <MenuItem onClick={handleLogout} >
-                    <Typography textAlign="center" style={{fontSize:'15px'}}>Keluar</Typography>
-                    </MenuItem>
-                  </Menu>
-              </Toolbar>
-            </AppBar>
-        </HideOnScroll>
-        <Toolbar id="back-to-top-anchor" style={{backgroundImage:"url('./bg_header.png')"}}/>
-        <Container  >
-            <Box sx={{ my: 2}} >
-            {[...new Array(12)]
-                .map(
-                () => ``,
-                )
-                .join('\n')}
-            </Box>
-        </Container>
-        <ScrollTop {...props}>
-        <Fab color="secondary" size="small" aria-label="scroll back to top">
-          <KeyboardArrowUpIcon />
-        </Fab>
-      </ScrollTop>
-        </React.Fragment>
-    );
+                    <Menu
+                      sx={{ mt: '45px' }}
+                      id="menu-appbar"
+                      anchorEl={anchorElUser}
+                      anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                      }}
+                      keepMounted
+                      transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                      }}
+                      open={Boolean(anchorElUser)}
+                      onClose={handleCloseUserMenu}
+                    >
+                      <MenuItem onClick={() => navigate("/laypol")}>
+                      <Typography textAlign="center" style={{fontSize:'15px'}}>Layanan Poli</Typography>
+                      </MenuItem>
+                      <MenuItem onClick={() => navigate("/swab")}>
+                      <Typography textAlign="center" style={{fontSize:'15px'}}>Layanan Swab</Typography>
+                      </MenuItem>
+                      <MenuItem onClick={() => navigate("/jadpol")}>
+                      <Typography textAlign="center" style={{fontSize:'15px'}}>Jadwal Poli</Typography>
+                      </MenuItem>
+                    </Menu>
+                  </Box>  
+                        
+                  { isAnyToken == null ? (
+                    <Button2 onClick={() => navigate("/login")}  style={{marginLeft:'5px', fontFamily: 'OpenSans-Bold', fontSize:'1.5em'}}
+                    >SIGN IN</Button2>
+                  ):(
+                    <Button2
+                      onClick={handleOpenUserMenu2}
+                      className={classes.button}
+                      style={{marginLeft:'10px', my: 2, display: 'block', fontSize: '1.5em', fontFamily: 'OpenSans-Bold',width:'150px'}}
+                    >Gabriella Evan <ExpdIcon />
+                    </Button2>
+                  )}
+
+                    <Menu
+                      sx={{ mt: '45px' }}
+                      id="menu-appbar"
+                      anchorEl={anchorElUser2}
+                      anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                      }}
+                      keepMounted
+                      transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                      }}
+                      open={Boolean(anchorElUser2)}
+                      onClose={handleCloseUserMenu2}
+                    >
+                      <MenuItem onClick={() => navigate("/akun")}>
+                      <Typography textAlign="center" style={{fontSize:'15px'}}>Akun Saya</Typography>
+                      </MenuItem>
+                      <MenuItem onClick={() => navigate("/riwayatvak")}>
+                      <Typography textAlign="center" style={{fontSize:'15px'}}>Riwayat Vaksin</Typography>
+                      </MenuItem>
+                      <MenuItem onClick={() => navigate("/riwayattran")}>
+                      <Typography textAlign="center" style={{fontSize:'15px'}}>Riwayat Transaksi</Typography>
+                      </MenuItem>
+                      <MenuItem onClick={handleLogout} >
+                      <Typography textAlign="center" style={{fontSize:'15px'}}>Keluar</Typography>
+                      </MenuItem>
+                    </Menu>
+                </Toolbar>
+              </AppBar>
+          </HideOnScroll>
+          <Toolbar id="back-to-top-anchor" style={{backgroundImage:"url('./bg_header.png')"}}/>
+          <Container  >
+              <Box sx={{ my: 2}} >
+              {[...new Array(12)]
+                  .map(
+                  () => ``,
+                  )
+                  .join('\n')}
+              </Box>
+          </Container>
+          <ScrollTop {...props}>
+          <Fab color="secondary" size="small" aria-label="scroll back to top">
+            <KeyboardArrowUpIcon />
+          </Fab>
+        </ScrollTop>
+          </React.Fragment>
+      );
+    
   }

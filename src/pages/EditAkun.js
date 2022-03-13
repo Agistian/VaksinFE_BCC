@@ -91,6 +91,18 @@ const LayPoli = () => {
     };
     //Datepicker
 
+    //logout
+    const { setAndGetTokens } = useAuth();
+    const handleLogout = () => {
+        console.log('oke');
+        setAndGetTokens();
+        localStorage.clear();
+        alert("Berhasil Keluar");
+        navigate('/', { replace: true });
+      };
+    //logout
+
+
     return (
         <div  style={{width:'100%'}}>
                <div>
@@ -116,7 +128,7 @@ const LayPoli = () => {
                                 <Button2 variant="contained" onClick={() => navigate("/riwayattran")} style={{marginLeft:'20px',fontFamily:'Poppins-Regular', textTransform: 'capitalize', textAlign:'left', paddingLeft:'30px', fontSize:'17px', width:'300px'}}
                                 >Riwayat Transaksi</Button2>
 
-                                <Button2 variant="contained" style={{marginLeft:'20px',fontFamily:'Poppins-Regular', textTransform: 'capitalize', textAlign:'left', paddingLeft:'30px', fontSize:'17px', width:'300px'}}
+                                <Button2 onClick={handleLogout} variant="contained" style={{marginLeft:'20px',fontFamily:'Poppins-Regular', textTransform: 'capitalize', textAlign:'left', paddingLeft:'30px', fontSize:'17px', width:'300px'}}
                                 >Keluar</Button2>
                             </div>
 
@@ -228,7 +240,7 @@ const LayPoli = () => {
                                             ></Input>
                                         </div>
                                     </div>
-                                        <MainButton style={{marginLeft:'35%', marginRight:'35%',width:'30%', height:'50px', marginTop:'20px', paddingTop:'0px', paddingBottom:'0px', fontSize:'20px'}}>Simpan</MainButton>
+                                        <MainButton onClick={() => navigate("/akun")} style={{marginLeft:'35%', marginRight:'35%',width:'30%', height:'50px', marginTop:'20px', paddingTop:'0px', paddingBottom:'0px', fontSize:'20px'}}>Simpan</MainButton>
                                  
                                 </MainForm>
                             </div>

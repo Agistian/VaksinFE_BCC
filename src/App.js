@@ -32,8 +32,10 @@ function App() {
 
 	const isAnyToken = JSON.parse(localStorage.getItem('token'));
 	// const userId = JSON.parse(localStorage.getItem('id'));
+	const ketT = JSON.parse(localStorage.getItem('ket'));
 	const [authToken, setAuthToken] = useState(isAnyToken);
 	// const [user, setUser] = useState(userId);
+	const [ketId, setket] = useState(ketT);
 
 	const setAndGetTokens = (token) => {
 		//token,id harusnya
@@ -41,6 +43,7 @@ function App() {
 		// localStorage.setItem('id', JSON.stringify(id));
 		setAuthToken(token);
 		// setUser(id);
+		
 	};
 
 	return (

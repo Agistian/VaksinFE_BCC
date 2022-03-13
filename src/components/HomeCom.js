@@ -11,6 +11,8 @@ import poli from '../asset/icon/poli.svg';
 import foto from '../asset/icon/foto.svg';
 import { useNavigate } from 'react-router-dom';
 import Modal from '@mui/material/Modal';
+import { useAuth } from '../config/Auth';
+import axios from 'axios';
 
 const Teks = styled.div`
     font-family: Poppins-SemiBold;
@@ -82,8 +84,23 @@ export const Dasboard = () => {
 		};
 	}, []);
 
+	const { authToken } = useAuth();
+
+	// axios({
+    //     method: "get",
+    //     url: "http://localhost:5000/dashboard/",
+    //     headers:{
+    //         'Access-Control-Allow-Headers': '*',
+    //         'Access-Control-Allow-Origin': '*',
+	// 	    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS'}
+    //  })
+    //     .then(function(response){
+    //         console.log(response.data);
+    //     });
+
 
 	return (
+		
 		<div style={{width:'100%', paddingTop: '60px', height: '100%'}}>
 			<Teks style={{paddingLeft:'90px', fontSize:'2.5em'}}>Dasboard Vaksinasi Civitas UB</Teks>
 			<br/>
@@ -93,7 +110,7 @@ export const Dasboard = () => {
 					<div style={{borderRadius:'10px', backgroundColor:'white', height:'100px', paddingLeft:'10px', paddingTop:'10px'}}>
 						<Teks style={{fontSize: '1.5em', fontFamily:'Poppins-Medium'}}>Total Vaksinasi Dosis 1</Teks>
 						<br/>
-						<p style={{fontFamily:'Poppins-Regular'}}>1/100 user</p>
+						<p style={{fontFamily:'Poppins-Regular'}}>72/72 user</p>
 						
 						<Box sx={{ width: '100%'}}>
 							<LinearProgressWithLabel style={{height:'15px', borderRadius:'5px'}} value={progress} />
@@ -105,7 +122,7 @@ export const Dasboard = () => {
 					<div style={{borderRadius:'10px', backgroundColor:'white', height:'100px', paddingLeft:'10px', paddingTop:'10px'}}>
 						<Teks style={{fontSize: '1.5em', fontFamily:'Poppins-Medium'}}>Total Vaksinasi Dosis 2</Teks>
 						<br/>
-						<p style={{fontFamily:'Poppins-Regular'}}>56.670 dosis</p>
+						<p style={{fontFamily:'Poppins-Regular'}}>60/72 user</p>
 						
 						<Box sx={{ width: '100%'}}>
 							<LinearProgressWithLabel style={{height:'15px', borderRadius:'5px'}} color='warning' value={progress2} />
@@ -117,7 +134,7 @@ export const Dasboard = () => {
 					<div style={{borderRadius:'10px', backgroundColor:'white', height:'100px', paddingLeft:'10px', paddingTop:'10px'}}>
 						<Teks style={{fontSize: '1.5em', fontFamily:'Poppins-Medium'}}>Total Vaksinasi Dosis 3</Teks>
 						<br/>
-						<p style={{fontFamily:'Poppins-Regular'}}>56.670 dosis</p>
+						<p style={{fontFamily:'Poppins-Regular'}}>30/72 user</p>
 						
 						<Box sx={{ width: '100%'}}>
 							<LinearProgressWithLabel style={{height:'15px', borderRadius:'5px'}} color='error' value={progress3} />

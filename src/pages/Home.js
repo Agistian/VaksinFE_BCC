@@ -1,4 +1,4 @@
-import React from "react";
+import React ,{useState} from "react";
 import styled from 'styled-components';
 import HideAppBar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -15,6 +15,7 @@ import { useAuth } from '../config/Auth';
 import { tweetAPI } from '../config/api';
 import useSWR from 'swr';
 import axios from 'axios';
+import Alert from 'react-bootstrap/Alert'
 
 const Content = styled.div`
 	width: 100%;
@@ -76,12 +77,19 @@ const Button2 = styled.button`
 `;
 
 const Home = () => {
+    
+    
     const navigate = useNavigate()
-    const { authToken } = useAuth();
+    const { authToken, ketId } = useAuth();
+    // const [show, setShow] = useState(true);
+    // console.log(ketId);
+
     return (
         <div  style={{backgroundImage:"url('./bg_header.png')", height: '500px', backgroundSize: 'cover', width:'100%'}}>
             <HideAppBar/>
+            
             <Content style={{height: '100%' ,width:'100%', marginTop:'50px'}}>
+           
                 <div style={{width:'100%', paddingTop: '150px', height: '80%'}}>
                     <Teks style={{marginLeft:'3em', marginRight: '2em', fontSize:'3.5em'}}>The Updated Information About UB Health Centre Service</Teks>
                     <Btn>
@@ -124,6 +132,7 @@ const Home = () => {
                 <Footer style={{position:'absolute'}}/>
             </Content>
         </div>
+      
     );
 };
 

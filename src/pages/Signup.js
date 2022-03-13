@@ -66,6 +66,7 @@ const Signup = () => {
 					if (loginResponse.data.success) {
 						const token = loginResponse.data.data.token;
 						setAndGetTokens(token);
+						alert("Sign Up Berhasil");
 						navigate('/', { replace: true });
 						console.log(loginResponse, token, 'tokenton');
 					}

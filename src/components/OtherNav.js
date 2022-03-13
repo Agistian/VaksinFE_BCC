@@ -208,6 +208,7 @@ import styled from 'styled-components';
       console.log('oke');
       setAndGetTokens();
       localStorage.clear();
+      alert("Berhasil Keluar");
       navigate('/', { replace: true });
     };
 

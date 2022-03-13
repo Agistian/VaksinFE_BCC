@@ -76,9 +76,6 @@ const style = {
 const Akun = () => {
     // http://intern-bcc-3.ap-southeast-1.elasticbeanstalk.com/
     const axios = require("axios");
-
-    
-    
     
     const [form, setForm] = useState('');
 	const [isError, setIsError] = useState({ status: false, message: '' });
@@ -137,6 +134,7 @@ const Akun = () => {
         console.log('oke');
         setAndGetTokens();
         localStorage.clear();
+        alert("Berhasil Keluar");
         navigate('/', { replace: true });
       };
     //logout
@@ -179,7 +177,7 @@ const Akun = () => {
                                 
                                 <MainForm>
                                     <div style={{ marginLeft:'2em'}}>
-                                        <MainButton style={{marginLeft:'75%',width:'20%', height:'50px', marginTop:'0px', paddingTop:'0px', paddingBottom:'0px', fontSize:'17px'}}>Edit Profile</MainButton>
+                                        <MainButton onClick={() => navigate("/editakun")} style={{marginLeft:'75%',width:'20%', height:'50px', marginTop:'0px', paddingTop:'0px', paddingBottom:'0px', fontSize:'17px'}}>Edit Profile</MainButton>
                                     </div>
                                     <div style={{display:'flex', justifyContent:'left',borderRadius:'10px',marginLeft:'3em', marginTop:'2em',paddingTop:'2em', paddingBottom:'2em', marginRight:'3em'}}>
                                         <div>

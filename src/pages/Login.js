@@ -22,21 +22,8 @@ import { tweetAPI } from '../config/api';
 import styled from 'styled-components';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-
-// const tweetAPI = axios.create({
-// 	baseURL:
-// 		'http://localhost:8080/',
-// 	headers: {
-// 		'Access-Control-Allow-Origin': '*',
-// 		'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-// 		'Content-Type': 'application/json',
-// 		'Access-Control-Allow-Headers': '*',
-// 		'Access-Control-Allow-Credentials':'true',
-// 		'X-CSRFToken': Cookies.get('csrftoken'),
-// 		Accept: 'application/json',
-// 		'Content-Type': 'application/json',
-// 	},
-// });
+import Alert from 'react-bootstrap/Alert';
+import Button from '@mui/material/Button';
 
 
 const ErrorMessage = styled.p`
@@ -54,10 +41,10 @@ const Login = () => {
 	const navigate = useNavigate();
 
 	const google = async (e) => {
-		const googleLogin = await axios.get('http://localhost:5000/user/google');
-		const token = googleLogin.data.data.token;
-		console.log(token);
+		window.location.href = "http://localhost:5000/user/google";
 	}
+
+	const [showAl, setShowAl] = useState(false);
 
 	const handleLogin = async (e) => {
 		e.preventDefault()
@@ -65,7 +52,6 @@ const Login = () => {
 		const csrftoken = Cookies.get('csrftoken')
 		try {
 			// http://intern-bcc-3.ap-southeast-1.elasticbeanstalk.com/
-			// const loginResponse = await fetch(`http://localhost:8080/user/login`, settings);
 			const loginResponse = await axios.post('http://localhost:5000/user/login',{ 
 				...forms,
 			});
@@ -78,9 +64,14 @@ const Login = () => {
 				// 	headers: { Authorization: `Bearer ${token}` },
 				// });
 				// const id = currUser.data.data.id;
+				
 				setAndGetTokens(token);
+				alert("Login Berhasil");
 				navigate('/', { replace: true });
-				console.log(token, 'tokenton');
+				
+				// console.log(token, 'tokenton');
+				
+				// console.log(udah);
 			}
 		} catch (error) {
 			setIsError((isError) => ({
