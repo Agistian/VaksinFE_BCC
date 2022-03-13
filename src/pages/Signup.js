@@ -48,7 +48,7 @@ const Signup = () => {
 		console.log(forms)
 		// register usernya
 		try {
-			const registerResponse = await axios.post('http://localhost:5000/user/register',{
+			const registerResponse = await axios.post('http://ad72-139-195-213-30.ngrok.io/user/register',{
 				...forms,
 			});
 			// jika sukses
@@ -59,7 +59,7 @@ const Signup = () => {
 				// post data buat login
 				// const response = await fetch('http://localhost:8080/', {mode:'cors'});
 				try {
-					const loginResponse = await axios.post('http://localhost:5000/user/login', {
+					const loginResponse = await axios.post('http://ad72-139-195-213-30.ngrok.io/user/login', {
 						...forms,
 					});
 					//jika sukses

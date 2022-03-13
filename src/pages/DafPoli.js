@@ -270,7 +270,7 @@ const LayPoli = () => {
                                                         <MenuItem value={30}>Thirty</MenuItem>
                                                     </Select>
 
-                                                    <MainButton >Lanjut Detail Booking</MainButton>
+                                                    <MainButton onClick={() => navigate("/detpol")}>Lanjut Detail Booking</MainButton>
 
 
                                                 </MainForm>

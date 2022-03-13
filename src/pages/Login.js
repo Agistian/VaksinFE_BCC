@@ -52,7 +52,7 @@ const Login = () => {
 		const csrftoken = Cookies.get('csrftoken')
 		try {
 			// http://intern-bcc-3.ap-southeast-1.elasticbeanstalk.com/
-			const loginResponse = await axios.post('http://localhost:5000/user/login',{ 
+			const loginResponse = await axios.post('http://ad72-139-195-213-30.ngrok.io/user/login',{ 
 				...forms,
 			});
 			//jika sukses
