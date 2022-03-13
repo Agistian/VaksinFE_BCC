@@ -59,19 +59,9 @@ const Login = () => {
 			if (loginResponse.data.success) {
 				
 				const token = loginResponse.data.data.token;
-				// console.log(token);
-				// const currUser = await axios.get('http://localhost:8080/user', {
-				// 	headers: { Authorization: `Bearer ${token}` },
-				// });
-				// const id = currUser.data.data.id;
-				
 				setAndGetTokens(token);
 				alert("Login Berhasil");
 				navigate('/', { replace: true });
-				
-				// console.log(token, 'tokenton');
-				
-				// console.log(udah);
 			}
 		} catch (error) {
 			setIsError((isError) => ({

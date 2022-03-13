@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import '../App.css';
-import * as React from 'react';
+import React ,{useState} from 'react';
 import PropTypes from 'prop-types';
 import LinearProgress from '@mui/material/LinearProgress';
 import Typography from '@mui/material/Typography';
@@ -51,6 +51,13 @@ LinearProgressWithLabel.propTypes = {
 
 
 export const Dasboard = () => {
+
+	const [form, setForm] = useState('');
+	const data = axios.get(`http://localhost:5000/dashboard/`).then((res) => {
+        // console.log(res.data);
+		setForm(res.data.jumlah_pengguna);
+    }).catch(err => console.log(err));
+	console.log(form);
 	const [progress, setProgress] = React.useState(10);
 	
 	React.useEffect(() => {
@@ -97,51 +104,55 @@ export const Dasboard = () => {
     //     .then(function(response){
     //         console.log(response.data);
     //     });
+	
 
 
 	return (
 		
 		<div style={{width:'100%', paddingTop: '60px', height: '100%'}}>
-			<Teks style={{paddingLeft:'90px', fontSize:'2.5em'}}>Dasboard Vaksinasi Civitas UB</Teks>
-			<br/>
-			<div style={{width:'90%', paddingTop: '30px', height: '50%', display:'flex', justifyContent:'center'}}>
-				
-				<div style={{width:'32%', marginLeft:'80px'}}>
-					<div style={{borderRadius:'10px', backgroundColor:'white', height:'100px', paddingLeft:'10px', paddingTop:'10px'}}>
-						<Teks style={{fontSize: '1.5em', fontFamily:'Poppins-Medium'}}>Total Vaksinasi Dosis 1</Teks>
-						<br/>
-						<p style={{fontFamily:'Poppins-Regular'}}>72/72 user</p>
-						
-						<Box sx={{ width: '100%'}}>
-							<LinearProgressWithLabel style={{height:'15px', borderRadius:'5px'}} value={progress} />
-						</Box>
+			
+				<Teks style={{paddingLeft:'90px', fontSize:'2.5em'}}>Dasboard Vaksinasi Civitas UB</Teks>
+				<br/>
+				<div style={{width:'90%', paddingTop: '30px', height: '50%', display:'flex', justifyContent:'center'}}>
+					
+					<div style={{width:'32%', marginLeft:'80px'}}>
+						<div style={{borderRadius:'10px', backgroundColor:'white', height:'100px', paddingLeft:'10px', paddingTop:'10px'}}>
+							<Teks style={{fontSize: '1.5em', fontFamily:'Poppins-Medium'}}>Total Vaksinasi Dosis 1</Teks>
+							<br/>
+							
+							<p style={{fontFamily:'Poppins-Regular'}}>user</p>
+							
+							<Box sx={{ width: '100%'}}>
+								<LinearProgressWithLabel style={{height:'15px', borderRadius:'5px'}} value={progress} />
+							</Box>
+						</div>
 					</div>
-				</div>
 
-				<div style={{width:'32%', marginLeft:'20px'}}>
-					<div style={{borderRadius:'10px', backgroundColor:'white', height:'100px', paddingLeft:'10px', paddingTop:'10px'}}>
-						<Teks style={{fontSize: '1.5em', fontFamily:'Poppins-Medium'}}>Total Vaksinasi Dosis 2</Teks>
-						<br/>
-						<p style={{fontFamily:'Poppins-Regular'}}>60/72 user</p>
-						
-						<Box sx={{ width: '100%'}}>
-							<LinearProgressWithLabel style={{height:'15px', borderRadius:'5px'}} color='warning' value={progress2} />
-						</Box>
+					<div style={{width:'32%', marginLeft:'20px'}}>
+						<div style={{borderRadius:'10px', backgroundColor:'white', height:'100px', paddingLeft:'10px', paddingTop:'10px'}}>
+							<Teks style={{fontSize: '1.5em', fontFamily:'Poppins-Medium'}}>Total Vaksinasi Dosis 2</Teks>
+							<br/>
+							<p style={{fontFamily:'Poppins-Regular'}}>60/72 user</p>
+							
+							<Box sx={{ width: '100%'}}>
+								<LinearProgressWithLabel style={{height:'15px', borderRadius:'5px'}} color='warning' value={progress2} />
+							</Box>
+						</div>
 					</div>
-				</div>
 
-				<div style={{width:'32%', marginLeft:'20px'}}>
-					<div style={{borderRadius:'10px', backgroundColor:'white', height:'100px', paddingLeft:'10px', paddingTop:'10px'}}>
-						<Teks style={{fontSize: '1.5em', fontFamily:'Poppins-Medium'}}>Total Vaksinasi Dosis 3</Teks>
-						<br/>
-						<p style={{fontFamily:'Poppins-Regular'}}>30/72 user</p>
-						
-						<Box sx={{ width: '100%'}}>
-							<LinearProgressWithLabel style={{height:'15px', borderRadius:'5px'}} color='error' value={progress3} />
-						</Box>
+					<div style={{width:'32%', marginLeft:'20px'}}>
+						<div style={{borderRadius:'10px', backgroundColor:'white', height:'100px', paddingLeft:'10px', paddingTop:'10px'}}>
+							<Teks style={{fontSize: '1.5em', fontFamily:'Poppins-Medium'}}>Total Vaksinasi Dosis 3</Teks>
+							<br/>
+							<p style={{fontFamily:'Poppins-Regular'}}>30/72 user</p>
+							
+							<Box sx={{ width: '100%'}}>
+								<LinearProgressWithLabel style={{height:'15px', borderRadius:'5px'}} color='error' value={progress3} />
+							</Box>
+						</div>
 					</div>
 				</div>
-			</div>
+			
         </div>
 	);
 };

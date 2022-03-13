@@ -80,9 +80,12 @@ const Home = () => {
     
     
     const navigate = useNavigate()
-    const { authToken, ketId } = useAuth();
-    // const [show, setShow] = useState(true);
-    // console.log(ketId);
+    const { authToken } = useAuth();
+
+    // axios.get(`http://localhost:5000/dashboard/`).then((res) => {
+    //     console.log(res);
+    // // setPost(response.data);
+    // }).catch(err => console.log(err));
 
     return (
         <div  style={{backgroundImage:"url('./bg_header.png')", height: '500px', backgroundSize: 'cover', width:'100%'}}>
