@@ -91,28 +91,18 @@ const Akun = () => {
     const [post, setPost] = React.useState(null);
     console.log(authToken);
 
-    axios({
-        method: "get",
-        url: "http://localhost:5000/user",
-        headers:{
-            'Access-Control-Allow-Headers': '*',
-            'Access-Control-Allow-Origin': '*',
-		    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-            Authorization: `Bearer ${authToken}`}
-     })
-        .then(function(response){
-            console.log(response.data);
-        });
-   
-
-    // axios(`http://localhost:5000/user`, {
-    //     headers: {Authorization: `Bearer ${authToken}`},
-    //     }).then((res) => {
-    //     console.log(res);
-    // // setPost(response.data);
-    // }).catch(err => console.log(err.res));
-    // console.log(post);
-    //user
+    const data = axios.get(`http://localhost:5000/user`, {
+            headers: {
+                Authorization: `Bearer ${authToken}`,
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Headers': '*',
+                'Access-Control-Allow-Credentials':'true'
+        }}).then((res) => {
+        console.log(res);
+		// setForm(res.data.jumlah);
+    }).catch(err => console.log(err));
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);

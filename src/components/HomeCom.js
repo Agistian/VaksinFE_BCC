@@ -52,17 +52,33 @@ LinearProgressWithLabel.propTypes = {
 
 export const Dasboard = () => {
 
-	const [form, setForm] = useState('');
-	const data = axios.get(`http://localhost:5000/dashboard/`).then((res) => {
+	const [pengguna, setForm] = useState('');
+	const [dosis1P, setdosis1P] = useState('');
+	const [dosis2P, setdosis2P] = useState('');
+	const [boosterP, setboosterP] = useState('');
+	const [perDosis1, setPer1] = useState(100);
+	const [perDosis2, setPer2] = useState(57);
+	const [perBooster, setPer3] = useState(42);
+	
+
+	axios.get(`http://localhost:5000/dashboard/`).then((res) => {
         // console.log(res.data);
 		setForm(res.data.jumlah_pengguna);
+		setdosis1P(res.data.jumlah_dosis1);
+		setdosis2P(res.data.jumlah_dosis2);
+		setboosterP(res.data.jumlah_booster);
+		setPer1(res.data.persentase_dosis1);
+		setPer2(res.data.persentase_dosis2);
+		setPer3(res.data.persentase_booster);
     }).catch(err => console.log(err));
-	console.log(form);
-	const [progress, setProgress] = React.useState(10);
 	
+	// console.log(perDosis2);
+	
+	const [progress, setProgress] = React.useState(10);
+
 	React.useEffect(() => {
 		const timer = setInterval(() => {
-		  setProgress((prevProgress) => (80));
+		  setProgress((prevProgress) => (perDosis1));
 		}, 800);
 		return () => {
 		  clearInterval(timer);
@@ -73,7 +89,7 @@ export const Dasboard = () => {
 	
 	React.useEffect(() => {
 		const timer = setInterval(() => {
-		  setProgress2((prevProgress) => (50));
+		  setProgress2((prevProgress) => (perDosis2));
 		}, 800);
 		return () => {
 		  clearInterval(timer);
@@ -84,7 +100,7 @@ export const Dasboard = () => {
 	
 	React.useEffect(() => {
 		const timer = setInterval(() => {
-		  setProgress3((prevProgress) => (70));
+		  setProgress3((prevProgress) => (perBooster));
 		}, 800);
 		return () => {
 		  clearInterval(timer);
@@ -92,19 +108,6 @@ export const Dasboard = () => {
 	}, []);
 
 	const { authToken } = useAuth();
-
-	// axios({
-    //     method: "get",
-    //     url: "http://localhost:5000/dashboard/",
-    //     headers:{
-    //         'Access-Control-Allow-Headers': '*',
-    //         'Access-Control-Allow-Origin': '*',
-	// 	    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS'}
-    //  })
-    //     .then(function(response){
-    //         console.log(response.data);
-    //     });
-	
 
 
 	return (
@@ -120,7 +123,7 @@ export const Dasboard = () => {
 							<Teks style={{fontSize: '1.5em', fontFamily:'Poppins-Medium'}}>Total Vaksinasi Dosis 1</Teks>
 							<br/>
 							
-							<p style={{fontFamily:'Poppins-Regular'}}>user</p>
+							<p style={{fontFamily:'Poppins-Regular'}}>{dosis1P} / {pengguna} user</p>
 							
 							<Box sx={{ width: '100%'}}>
 								<LinearProgressWithLabel style={{height:'15px', borderRadius:'5px'}} value={progress} />
@@ -132,7 +135,7 @@ export const Dasboard = () => {
 						<div style={{borderRadius:'10px', backgroundColor:'white', height:'100px', paddingLeft:'10px', paddingTop:'10px'}}>
 							<Teks style={{fontSize: '1.5em', fontFamily:'Poppins-Medium'}}>Total Vaksinasi Dosis 2</Teks>
 							<br/>
-							<p style={{fontFamily:'Poppins-Regular'}}>60/72 user</p>
+							<p style={{fontFamily:'Poppins-Regular'}}>{dosis2P} / {pengguna} user</p>
 							
 							<Box sx={{ width: '100%'}}>
 								<LinearProgressWithLabel style={{height:'15px', borderRadius:'5px'}} color='warning' value={progress2} />
@@ -144,7 +147,7 @@ export const Dasboard = () => {
 						<div style={{borderRadius:'10px', backgroundColor:'white', height:'100px', paddingLeft:'10px', paddingTop:'10px'}}>
 							<Teks style={{fontSize: '1.5em', fontFamily:'Poppins-Medium'}}>Total Vaksinasi Dosis 3</Teks>
 							<br/>
-							<p style={{fontFamily:'Poppins-Regular'}}>30/72 user</p>
+							<p style={{fontFamily:'Poppins-Regular'}}>{boosterP} / {pengguna} user</p>
 							
 							<Box sx={{ width: '100%'}}>
 								<LinearProgressWithLabel style={{height:'15px', borderRadius:'5px'}} color='error' value={progress3} />
