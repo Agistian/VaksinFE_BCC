@@ -5,7 +5,7 @@ import LayPoli from './pages/LayPoli';
 import DetPol from './pages/DetPol';
 import DetSwab from './pages/DetSwab';
 import DafPoli from './pages/DafPoli';
-import DafSwab from './pages/DafSwab';
+import DafVaksin from './pages/DafVaksin';
 import Swab from './pages/Swab';
 import JadPoli from './pages/JadPoli';
 import Sukses from './pages/Sukses';
@@ -21,6 +21,7 @@ import { useState } from 'react';
 import ScrollTop from './components/ScrollTop';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import GlobalStyles	from './templates/globalStyles';
+import Reservasi from './pages/Reservasi';
 // var express = require('express')
 // var cors = require('cors')
 
@@ -60,15 +61,19 @@ function App() {
 						
 				}/>
 
-				<Route path="/dafswab" element={
+				<Route path="/dafvaksin" element={
 					<PrivateRoute>
-						<DafSwab />
+						<DafVaksin />
 					</PrivateRoute>
 						
 				}/>
 
 				<Route path="/swab" element={
 						<Swab />
+				}/>
+
+				<Route path="/reservasi" element={
+						<Reservasi />
 				}/>
 
 				<Route path="/sukses" element={

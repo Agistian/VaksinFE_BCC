@@ -10,12 +10,8 @@ const Teks = styled.div`
 
 const Footer = () => {
 	return(
-		<div>
-            <Teks style={{paddingTop:'3px', textAlign: 'center'}}>B-HEALTH X KLINIK UB</Teks>
-			<br/>
-            <hr/>
-            <br/>
-			<div style={{display:'flex', justifyContent:'space-between', padding:'20px 40px 20px 90px', marginRight:'10%'}}>
+		<div style={{backgroundColor:'#B3E7EC'}}>
+			<div style={{display:'flex', justifyContent:'space-between', padding:'20px 40px 20px 90px', marginRight:'10%', paddingBottom:'5%'}}>
 				<div style={{width:'32%'}}>
                     <Teks style={{paddingTop:'3px', fontSize:'14px'}}>About</Teks>
                     <Teks  style={{paddingTop:'3px', fontFamily:'Poppins-Medium', fontSize:'12px'}}>
@@ -45,10 +41,6 @@ const Footer = () => {
                     <a href='https://klinik.ub.ac.id/'>https://klinik.ub.ac.id/</a></Teks>
                 </div>
 			</div>
-            <br/>
-            <hr/>
-            <br/>
-            <Teks style={{paddingTop:'3px', fontFamily:'Poppins-Medium', textAlign: 'center', fontSize:'10px', color:'grey'}}>2022 Copyright B-Health • All rights reserved • Made in Malang, Indonesia</Teks>
 		</div>
 	);
 };
