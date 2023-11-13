@@ -32,6 +32,8 @@ import { makeStyles } from '@mui/styles';
 import '../App.css';
 import styled from 'styled-components';
 import Alert from 'react-bootstrap/Alert';
+import Dropdown from 'react-bootstrap/Dropdown';
+import Modal from 'react-bootstrap/Modal';
 
 
   function HideOnScroll(props) {
@@ -146,12 +148,12 @@ import Alert from 'react-bootstrap/Alert';
         flex: '1',
       },
       button: {
-        backgroundColor: '#6F70DA',
+        backgroundColor: '#F4FEFF',
         color: '#fff',
         border:'1px solid #6F70DA',
         borderRadius:'10px',
         '&:hover': {
-          backgroundColor: '#ffff',
+          backgroundColor: '#F4FEFF',
           color: '#6F70DA',
       },
     }})
@@ -174,6 +176,25 @@ import Alert from 'react-bootstrap/Alert';
         background-color: #FFFFFF;
         color: #6F70DA;
     }
+`;
+
+const Teks = styled.div`
+    display:flex;
+    align-items:center;
+    color:white;
+    font-style: 'Poppins';
+    font-weight: 700;
+    font-size: 35px;
+    text-align: center;
+    letter-spacing: 0.05em;
+    p{
+        font-style: 'Poppins';
+        justify-content:center;
+        font-size: 25px;
+        font-weight: 650;
+        letter-spacing: 0.03em;
+    }
+    
 `;
   
   export default function HideAppBar(props) {
@@ -229,25 +250,32 @@ import Alert from 'react-bootstrap/Alert';
           <CssBaseline />
           <HideOnScroll {...props}>
               
-              <AppBar style={{boxShadow: '0px 0px 0px', backgroundColor: '#E3E3FB'}}>
+              <AppBar style={{boxShadow: '0px 0px 0px', backgroundColor: '#F4FEFF'}}>
                 <Toolbar style={{paddingTop:'30px',paddingLeft:'50px', display:'flex', justifyContent: 'space-between'}}>
                   <Typography variant="h3" component="div" style={{  fontFamily: 'OpenSans-Bold',color: 'black'}}>
                     B-HEALTH
                   </Typography>
 
                   <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent:'right' }}>
-                      <Button
+                      {/* <Button
                         onClick={() => navigate("/")}
                         sx={{ my: 2, color: 'black', display: 'block', paddingTop:'7.5px', fontFamily: 'OpenSans-Bold'}}
                         style={{fontSize: '1.5em'}}
                       >HOME
-                      </Button>
+                      </Button> */}
                       
                       
                       <Button
                         onClick={handleOpenUserMenu}
                         sx={{ my: 2, color: 'black', display: 'block', fontSize: '1.5em', fontFamily: 'OpenSans-Bold'}}
-                      >Informasi <ExpdIcon />
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 35 35" fill="none">
+                          <path d="M30.625 14.5834H4.375" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M30.625 8.75H4.375" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M30.625 20.4166H4.375" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M30.625 26.25H4.375" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      {/* <ExpdIcon /> */}
                       </Button>
             
 
@@ -267,19 +295,54 @@ import Alert from 'react-bootstrap/Alert';
                       open={Boolean(anchorElUser)}
                       onClose={handleCloseUserMenu}
                     >
-                      <MenuItem onClick={() => navigate("/laypol")}>
-                      <Typography textAlign="center" style={{fontSize:'15px'}}>Layanan Poli</Typography>
+                      <MenuItem onClick={() => navigate("/akun")}>
+                        <Typography textAlign="center" style={{fontSize:'15px'}}>Halaman Utama</Typography>
                       </MenuItem>
-                      <MenuItem onClick={() => navigate("/swab")}>
-                      <Typography textAlign="center" style={{fontSize:'15px'}}>Layanan Swab</Typography>
+                      <MenuItem onClick={() => navigate("/riwayatvak")}>
+                        <Typography textAlign="center" style={{fontSize:'15px'}}>Reservasi Vaksin</Typography>
                       </MenuItem>
-                      <MenuItem onClick={() => navigate("/jadpol")}>
-                      <Typography textAlign="center" style={{fontSize:'15px'}}>Jadwal Poli</Typography>
+                      <MenuItem onClick={() => navigate("/riwayattran")}>
+                        <Typography textAlign="center" style={{fontSize:'15px'}}>Reservasi Tes Covid</Typography>
                       </MenuItem>
+                      <MenuItem onClick={() => navigate("/riwayattran")}>
+                        <Typography textAlign="center" style={{fontSize:'15px'}}>Tiket Vaksin</Typography>
+                      </MenuItem>
+                      <MenuItem onClick={() => navigate("/riwayattran")}>
+                        <Typography textAlign="center" style={{fontSize:'15px'}}>Berita</Typography>
+                      </MenuItem>
+                      
+
+                      { isAnyToken != null ? (
+                        <>
+                        <MenuItem onClick={() => navigate("/riwayattran")}>
+                          <Typography textAlign="center" style={{fontSize:'15px'}}>Upload Hasil Vaksin</Typography>
+                        </MenuItem>
+
+                        <MenuItem onClick={handleLogout} >
+                          <Typography textAlign="center" style={{fontSize:'15px'}}>Logout
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M9 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H9" stroke="#979797" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M16 17L21 12L16 7" stroke="#979797" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M21 12H9" stroke="#979797" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                          </Typography>
+                        </MenuItem>
+                        </>
+                      ):(
+                        <MenuItem onClick={() => navigate("/login")} >
+                          <Typography textAlign="center" style={{fontSize:'15px'}}>Login 
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M15 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H15" stroke="#979797" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M10 17L15 12L10 7" stroke="#979797" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M15 12H3" stroke="#979797" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                          </Typography>
+                        </MenuItem>
+                      )}
                     </Menu>
                   </Box>  
                         
-                  { isAnyToken == null ? (
+                  {/* { isAnyToken == null ? (
                     <Button2 onClick={() => navigate("/login")}  style={{marginLeft:'5px', fontFamily: 'OpenSans-Bold', fontSize:'1.5em'}}
                     >SIGN IN</Button2>
                   ):(
@@ -289,7 +352,7 @@ import Alert from 'react-bootstrap/Alert';
                       style={{marginLeft:'10px', my: 2, display: 'block', fontSize: '1.5em', fontFamily: 'OpenSans-Bold',width:'150px'}}
                     >Gabriella Evan <ExpdIcon />
                     </Button2>
-                  )}
+                  )} */}
 
                     <Menu
                       sx={{ mt: '45px' }}
@@ -339,6 +402,100 @@ import Alert from 'react-bootstrap/Alert';
           </Fab>
         </ScrollTop>
           </React.Fragment>
+        
+        // <nav className="navbar navbar-expand-lg"  style={{backgroundColor:'#030025',position:'fixed', top:'0', width:'100%', zIndex:'1'}}>
+        //       <div class="container-fluid">
+        //           <a class="navbar-brand col-2" href="#" onClick={()=> navigate("/")}>
+        //             {/* <img src="../logo/BUIGIA.png" alt="Logo" onClick={()=> navigate("/")} height="40" class="d-inline-block align-text-top" /> */}
+        //             <Teks>BACAKUY!</Teks>
+        //           </a>
+        //           {/* <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        //               <span class="navbar-toggler-icon"></span>
+        //           </button> */}
+        //           <div class="collapse navbar-collapse" id="navbarSupportedContent" >
+        //               <div className='col-8 ' style={{display:'flex'}} >
+        //                   <ul class="navbar-nav ml-lg-10 mb-2 mb-lg-0" >
+        //                               {/* <div className="nav-link menu active" onClick={() => navigate("/")} id="/">Home</div> */}
+        //                       {/* <CustomLink href="/">Home</CustomLink> */}
+        //                       {/* <CustomLink href="/learn-color">Learn Color</CustomLink>
+        //                       <CustomLink href="/consultant">Consultation</CustomLink>
+        //                       <CustomLink href="/about-us">About Us</CustomLink> */}
+        //                   </ul>
+        //               </div>
+
+        //               { isAnyToken == null ? (
+        //                 <div className='col-3' style={{display:'flex',marginLeft:'30px'}} >
+        //                   <div className="col-12 justify-content" style={{display:'flex',justifyContent:'end', alignItems:'end' ,marginRight:'10px'}}>
+        //                           <Button style={{marginRight:'10px'}} onClick={()=> navigate("/login")}>Login</Button>
+        //                           {/* <Button style={{}} onClick={()=> navigate("/register")}>Sign Up</Button> */}
+        //                   </div>
+        //                 </div>
+        //               ):(
+                
+        //                   <div className='col-md-3 justify-content-md-end' style={{display:'flex',marginLeft:'30px'}} >
+        //                     {/* <div className="" style={{display:'flex',justifyContent:'end', alignItems:'end' ,marginRight:'10px'}}>
+        //                             <Button2 style={{width:'100px', borderColor:'#A63D44', paddingBottom:'30px'}} onClick={handleLogout}>Logout</Button2>
+        //                     </div> */}
+                          
+                            
+        //                     {/* onClick={()=> navigate("/profil")} */}
+        //                     <Dropdown>
+        //                       <Dropdown.Toggle className='dropdownBtn' id="dropdown-basic" style={{backgroundColor:'transparent',borderColor:'transparent'}}>
+        //                         <div className='col-1 justify-content-md-end'  style={{justifyContent:'end', cursor:'pointer'}}>
+        //                           <img src="./foto/user.png" height="50" width="50"></img>
+        //                       </div>
+        //                       </Dropdown.Toggle>
+
+        //                       <Dropdown.Menu>
+        //                         <Dropdown.Item href="#">Profil</Dropdown.Item>
+        //                         <Dropdown.Item href="#" >Keranjang Saya</Dropdown.Item>
+        //                         <Dropdown.Item href="#" onClick={()=> navigate("/bacaanku")}>Bacaan Saya</Dropdown.Item>
+        //                         <Dropdown.Item href="#/" onClick={handleLogout}>Log Out</Dropdown.Item>
+        //                       </Dropdown.Menu>
+        //                     </Dropdown>
+        //                   </div>
+                      
+        //               )}
+                      
+                      
+                      
+        //           </div>
+        //       </div>
+        //       <img src="./foto/scrol.png" height="50px" width="50px"
+        //       id='btn-back-to-top'
+        //       style={{
+        //       position: "fixed",
+        //       bottom: "20px",
+        //       display: "none",
+        //       right: "20px",
+        //       cursor:'pointer'}}/>
+
+        //       {/* <Modal show={show} onHide={handleClose}>
+        //           <Modal.Header closeButton>
+        //           <Modal.Title>
+        //               <img src="../icon/sukses.png"/>
+        //               Keranjang Kosong &nbsp;
+        //           </Modal.Title>
+        //           </Modal.Header>
+        //           <Modal.Body>Keranjang masih kosong, pinjam dulu kuy!</Modal.Body>
+        //           <Modal.Footer>
+        //           </Modal.Footer>
+        //       </Modal> */}
+
+        //       {/* <Modal show={show2} onHide={handleClose2}>
+        //           <Modal.Header closeButton>
+        //           <Modal.Title>
+        //               <img src="../icon/sukses.png"/>
+        //               Berhasil Keluar &nbsp;
+        //           </Modal.Title>
+        //           </Modal.Header>
+        //           <Modal.Body>Sampai jumpa lagi!</Modal.Body>
+        //           <Modal.Footer>
+        //           </Modal.Footer>
+        //       </Modal> */}
+        // </nav>
+ 
+    
       );
     
   }

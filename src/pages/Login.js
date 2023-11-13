@@ -48,28 +48,33 @@ const Login = () => {
 
 	const handleLogin = async (e) => {
 		e.preventDefault()
-		console.log(forms);
-		const csrftoken = Cookies.get('csrftoken')
-		try {
-			// http://intern-bcc-3.ap-southeast-1.elasticbeanstalk.com/
-			const loginResponse = await axios.post('http://ad72-139-195-213-30.ngrok.io/user/login',{ 
-				...forms,
-			});
-			//jika sukses
-			if (loginResponse.data.success) {
+
+		setAndGetTokens('token');
+		alert("Login Berhasil");
+		navigate('/', { replace: true });
+
+		// console.log(forms);
+		// const csrftoken = Cookies.get('csrftoken')
+		// try {
+		// 	// http://intern-bcc-3.ap-southeast-1.elasticbeanstalk.com/
+		// 	const loginResponse = await axios.post('http://ad72-139-195-213-30.ngrok.io/user/login',{ 
+		// 		...forms,
+		// 	});
+		// 	//jika sukses
+		// 	if (loginResponse.data.success) {
 				
-				const token = loginResponse.data.data.token;
-				setAndGetTokens(token);
-				alert("Login Berhasil");
-				navigate('/', { replace: true });
-			}
-		} catch (error) {
-			setIsError((isError) => ({
-				status: true,
-				message: 'Error while try to logged in',
-			}));
-			console.log(error, 'in login');
-		}
+		// 		const token = loginResponse.data.data.token;
+		// 		setAndGetTokens(token);
+		// 		alert("Login Berhasil");
+		// 		navigate('/', { replace: true });
+		// 	}
+		// } catch (error) {
+		// 	setIsError((isError) => ({
+		// 		status: true,
+		// 		message: 'Error while try to logged in',
+		// 	}));
+		// 	console.log(error, 'in login');
+		// }
 	};
 	return (
 		<Container>

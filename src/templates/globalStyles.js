@@ -31,7 +31,7 @@ const GlobalStyles = createGlobalStyle`
     font-weight: 400;
     color: #222;
     line-height: 1.6;
-    background-color: #E3E3FB;
+    background-color: white;
     min-height:100vh;
     width:100%;
   }

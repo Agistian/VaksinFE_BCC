@@ -10,7 +10,7 @@ const Teks = styled.div`
 
 const Footer = () => {
 	return(
-		<div style={{width:'100%'}}>
+		<div>
             <Teks style={{paddingTop:'3px', textAlign: 'center'}}>B-HEALTH X KLINIK UB</Teks>
 			<br/>
             <hr/>
