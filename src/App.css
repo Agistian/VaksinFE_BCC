@@ -86,6 +86,7 @@
 .Bagi {
   display: flex;
 	justify-content: left center;
+  margin-top: 20px;
 }
 .stack-top{
   z-index: 9;

@@ -1,13 +1,8 @@
-import React ,{useState} from "react";
+import React ,{useState, useEffect} from "react";
 import styled from 'styled-components';
 import HideAppBar from '../components/Navbar';
 import Footer from '../components/Footer';
-import InfoHome from "../components/InfoHome";
-import {Dasboard, Pendaftaran, Pendapat, Informasi} from "../components/HomeCom";
-import { Link } from 'react-router-dom';
 import '../App.css';
-import { style } from "@mui/system";
-// import Button from '@mui/material/Button';
 import dokter from '../asset/icon/Group 92.svg';
 import vaksin from '../asset/icon/vaksin.svg';
 import covid from '../asset/icon/covid.svg';
@@ -16,15 +11,15 @@ import schedule from '../asset/icon/schedule.svg';
 import covidtest from '../asset/icon/covid-test.svg';
 import medicine from '../asset/icon/medicine.svg';
 import news from '../asset/icon/news.svg';
-import keuntungan from '../asset/icon/keuntungan.png';
-import untung from '../asset/icon/frame.svg';
+import news2 from '../asset/icon/news2.svg';
+import news3 from '../asset/icon/news3.svg';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../config/Auth';
-import { tweetAPI } from '../config/api';
-import useSWR from 'swr';
-import axios from 'axios';
-import Alert from 'react-bootstrap/Alert';
 import Card from 'react-bootstrap/Card';
+import Aos from "aos";
+import "aos/dist/aos.css";
+import Modal from 'react-bootstrap/Modal';
+
 
 const Content = styled.div`
     width: 100%;
@@ -125,12 +120,31 @@ const Home = () => {
     // // setPost(response.data);
     // }).catch(err => console.log(err));
 
+    useEffect(() => {
+        Aos.init({duration: 2000});
+    },[]);
+
+    const [open, setOpen] = React.useState(false);
+    const handleClose = () => setOpen(false);
+
+    const handleEnter = async(e) => {
+        if(authToken != null){
+            if(e.target.value == 'vaksin'){
+                navigate("/reservasi")
+            }else{
+                navigate("/reservasicovid")
+            }
+        }else{
+            setOpen(true);
+        }
+    }
+
     return (
         <div>
             <HideAppBar/>
             
             <Content style={{backgroundColor:'#F4FEFF'}}>
-                <div className="col-md-6" style={{paddingTop: '200px'}}>
+                <div  data-aos="fade-up" className="col-md-6" style={{paddingTop: '200px'}}>
                     <div style={{display:'flex', marginLeft:'3em', fontSize:'3.5em'}}>
                         <Teks>Langkah Cerdas,</Teks>
                         <Teks3>Reservasi Vaksin
@@ -143,24 +157,24 @@ const Home = () => {
                     
                     { isAnyToken == null ? (
                     <Btn>
-                        <Button variant="contained" onClick={() => navigate("/laypol")} style={{fontFamily:'Poppins-Regular', textTransform: 'capitalize', fontSize:'15px', width:'130px'
+                        <Button variant="contained" onClick={() => navigate("/login")} style={{fontFamily:'Poppins-Regular', textTransform: 'capitalize', fontSize:'15px', width:'130px'
                        }} >Login Akun</Button>
                     </Btn>
                     ):(
                         <></>
                     )}
                 </div>
-                <div className="col-md-6" style={{paddingTop:'40px', paddingLeft:'40px',height: '80%'}}>
+                <div  data-aos="fade-up" className="col-md-6" style={{paddingTop:'40px', paddingLeft:'40px',height: '80%'}}>
                     <img src={dokter} alt="Logo" height="700px" width="100%"/>
                 </div>
             </Content>
 
-            <Content style={{marginTop:'40px'}}>
-                <div className="col-md-5" >
+            <Content  style={{marginTop:'40px'}}>
+                <div data-aos="fade-up"  className="col-md-5" >
                     <img src={vaksin} alt="Logo" height="500px"/>
                 </div>
 
-                <div className="col-md-5">
+                <div data-aos="fade-up"  className="col-md-5">
                     <div style={{ fontSize:'3.5em', display:'flex', justifyContent:'right'}}>
                         <Teks>Reservasi</Teks>
                         <Teks3 style={{paddingLeft:'10px'}}>Vaksin</Teks3>
@@ -208,7 +222,7 @@ const Home = () => {
                     </div>
                     <div style={{marginTop:'20px'}}>
                         <Btn style={{justifyContent:'center', alignItems:'center'}}>
-                            <Button variant="contained" onClick={() => navigate("/reservasi")} style={{fontFamily:'Poppins-Regular', textTransform: 'capitalize', fontSize:'13px', width:'150px'}} 
+                            <Button variant="contained" onClick={handleEnter} value={'vaksin'} style={{fontFamily:'Poppins-Regular', textTransform: 'capitalize', fontSize:'13px', width:'150px'}} 
                             >Mulai Reservasi
                             </Button>
                         </Btn>
@@ -216,8 +230,8 @@ const Home = () => {
                 </div>
             </Content>
 
-            <Content style={{marginTop:'40px'}}>
-                <div className="col-md-5">
+            <Content   style={{marginTop:'40px'}}>
+                <div data-aos="fade-up"  className="col-md-5">
                     <div style={{ fontSize:'3.5em', display:'flex', justifyContent:'left'}}>
                         <Teks>Reservasi</Teks>
                         <Teks3 style={{paddingLeft:'10px'}}>Tes Covid-19</Teks3>
@@ -265,27 +279,27 @@ const Home = () => {
                     </div>
                     <div style={{marginTop:'20px'}}>
                         <Btn style={{justifyContent:'center', alignItems:'center'}}>
-                            <Button variant="contained" onClick={() => navigate("/laypol")} style={{fontFamily:'Poppins-Regular', textTransform: 'capitalize', fontSize:'13px', width:'150px'}} 
+                            <Button variant="contained" onClick={handleEnter} value={'covid'} style={{fontFamily:'Poppins-Regular', textTransform: 'capitalize', fontSize:'13px', width:'150px'}} 
                             >Mulai Reservasi
                             </Button>
                         </Btn>
                     </div>
                 </div>
 
-                <div className="col-md-5" style={{textAlign:'right'}}>
+                <div data-aos="fade-up"  className="col-md-5" style={{textAlign:'right'}}>
                     <img src={covid} alt="Logo" height="500px" />
                 </div>
             </Content>
 
             <Content style={{marginTop:'40px',backgroundColor:'#F4FEFF'}}>
-                <div className="col-md-10">
+                <div  data-aos="fade-up" className="col-md-10">
                     <div style={{ fontSize:'3.5em', display:'flex', justifyContent:'center'}}>
                         <Teks>Berita &</Teks>
                         <Teks3 style={{paddingLeft:'10px'}}>Artikel</Teks3>
                     </div>
                     
-                    <div style={{display:'flex', marginTop:'20px', justifyContent:'center'}}>
-                       <Card style={{ width: '30rem', padding:'20px', borderRadius: '30px', cursor:'pointer',background: 'var(--card, linear-gradient(180deg, #4ED6DA 0%, #04789D 100%))'}}>
+                    <div style={{display:'flex', marginTop:'20px', justifyContent:'center',marginBottom:'20px'}}>
+                       <Card onClick={() => navigate("/artikel")} style={{ width: '30rem', padding:'20px', borderRadius: '30px', cursor:'pointer',background: 'var(--card, linear-gradient(180deg, #4ED6DA 0%, #04789D 100%))'}}>
                             <Card.Img variant="top" src={news}/>
                             <Card.Body>
                                 <Card.Title>
@@ -301,33 +315,33 @@ const Home = () => {
                             </Card.Body>
                         </Card>
 
-                        <Card style={{ width: '30rem', padding:'20px', marginLeft:'10px', marginRight:'10px',borderRadius: '30px',  cursor:'pointer',background: 'var(--card, linear-gradient(180deg, #4ED6DA 0%, #04789D 100%))'}}>
-                            <Card.Img variant="top" src={news}/>
+                        <Card onClick={() => navigate("/artikel2")} style={{ width: '30rem', padding:'20px', marginLeft:'10px', marginRight:'10px',borderRadius: '30px',  cursor:'pointer',background: 'var(--card, linear-gradient(180deg, #4ED6DA 0%, #04789D 100%))'}}>
+                            <Card.Img variant="top" src={news2}/>
                             <Card.Body>
                                 <Card.Title>
                                     <Teks2 style={{fontWeight:'700', color:'white'}}>
-                                        Makanan Peningkat Imun
+                                    Pentingnya Mencuci Tangan Sebelum Makan
                                     </Teks2>
                                 </Card.Title>
                                 <Card.Text>
                                     <Teks2 style={{fontSize:'10px', color:'white'}}>
-                                        Cuaca yang tidak menentu sering menyebabkan seseorang mudah terserang penyakit karena imun tubuh yang rendah. Cari tahu makanan apa saja yang dapat meningkatkan imun Anda!
+                                    Seringkali kita lupa mencuci tangan sebelum makan karena sudah terlanjur lapar, padahal hal tersebut bisa berbahaya bagi tubuh.
                                     </Teks2>
                                 </Card.Text>
                             </Card.Body>
                         </Card>
 
-                        <Card style={{ width: '30rem', padding:'20px', borderRadius: '30px',  cursor:'pointer',background: 'var(--card, linear-gradient(180deg, #4ED6DA 0%, #04789D 100%))'}}>
-                            <Card.Img variant="top" src={news}/>
+                        <Card onClick={() => navigate("/artikel3")} style={{ width: '30rem', padding:'20px', borderRadius: '30px',  cursor:'pointer',background: 'var(--card, linear-gradient(180deg, #4ED6DA 0%, #04789D 100%))'}}>
+                            <Card.Img variant="top" src={news3}/>
                             <Card.Body>
                                 <Card.Title>
                                     <Teks2 style={{fontWeight:'700', color:'white'}}>
-                                        Makanan Peningkat Imun
+                                    Udara Buruk Sebabkan Gangguan Pernapasan 
                                     </Teks2>
                                 </Card.Title>
                                 <Card.Text>
                                     <Teks2 style={{fontSize:'10px', color:'white'}}>
-                                        Cuaca yang tidak menentu sering menyebabkan seseorang mudah terserang penyakit karena imun tubuh yang rendah. Cari tahu makanan apa saja yang dapat meningkatkan imun Anda!
+                                    Penggunaan masker sangat disarankan dalam situasi saat ini, tujuannya untuk melindungi sistem pernapasan Anda dari udara buruk.
                                     </Teks2>
                                 </Card.Text>
                             </Card.Body>
@@ -335,16 +349,34 @@ const Home = () => {
                         
                     </div>
                     
-                    <div style={{marginTop:'20px', marginBottom:'20px',display:'flex',justifyContent:'center', textAlign:'center'}}>
-                        <Button variant="contained" onClick={() => navigate("/laypol")} style={{fontFamily:'Poppins-Regular', textTransform: 'capitalize', fontSize:'13px', paddingLeft:'10px', paddingRight:'10px'}} 
+                    {/* <div style={{marginTop:'20px', marginBottom:'20px',display:'flex',justifyContent:'center', textAlign:'center'}}>
+                        <Button variant="contained" onClick={() => navigate("#")} style={{fontFamily:'Poppins-Regular', textTransform: 'capitalize', fontSize:'13px', paddingLeft:'10px', paddingRight:'10px'}} 
                         >Selengkapnya
                         </Button>
-                    </div>
+                    </div> */}
                 </div>
             </Content>
 
             <Footer style={{position:'absolute'}}/>
-           
+            
+            <Modal show={open} onHide={handleClose} style={{marginTop:'150px'}}>
+                       
+                <Modal.Title style={{border:'none', display:'flex', marginTop:'20px',flexDirection:'column',justifyContent:'center', alignItems:'center'}}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="49" height="48" viewBox="0 0 49 48" fill="none">
+                        <path d="M24.5 44C30.0228 44 35.0228 41.7614 38.6421 38.1421C42.2614 34.5228 44.5 29.5228 44.5 24C44.5 18.4772 42.2614 13.4772 38.6421 9.85786C35.0228 6.23858 30.0228 4 24.5 4C18.9772 4 13.9772 6.23858 10.3579 9.85786C6.73858 13.4772 4.5 18.4772 4.5 24C4.5 29.5228 6.73858 34.5228 10.3579 38.1421C13.9772 41.7614 18.9772 44 24.5 44Z" fill="white" stroke="black" stroke-width="4" stroke-linejoin="round"/>
+                        <path d="M16.5 24L22.5 30L34.5 18" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+
+                    <Teks style={{textAlign:'center', fontSize:'25px',marginTop:'10px'}}>Login terlebih dahulu!</Teks>
+
+                    <div style={{display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center', marginBottom:'20px'}}>
+                        <Button onClick={() => navigate("/login")} style={{width:'100px'}}>
+                            Login
+                        </Button>
+                    </div>
+                </Modal.Title>
+                
+            </Modal>
         </div>
     );
 };

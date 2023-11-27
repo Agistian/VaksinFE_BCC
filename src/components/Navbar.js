@@ -295,26 +295,26 @@ const Teks = styled.div`
                       open={Boolean(anchorElUser)}
                       onClose={handleCloseUserMenu}
                     >
-                      <MenuItem onClick={() => navigate("/akun")}>
+                      <MenuItem onClick={() => navigate("/")}>
                         <Typography textAlign="center" style={{fontSize:'15px'}}>Halaman Utama</Typography>
                       </MenuItem>
-                      <MenuItem onClick={() => navigate("/riwayatvak")}>
-                        <Typography textAlign="center" style={{fontSize:'15px'}}>Reservasi Vaksin</Typography>
-                      </MenuItem>
-                      <MenuItem onClick={() => navigate("/riwayattran")}>
-                        <Typography textAlign="center" style={{fontSize:'15px'}}>Reservasi Tes Covid</Typography>
-                      </MenuItem>
-                      <MenuItem onClick={() => navigate("/riwayattran")}>
-                        <Typography textAlign="center" style={{fontSize:'15px'}}>Tiket Vaksin</Typography>
-                      </MenuItem>
-                      <MenuItem onClick={() => navigate("/riwayattran")}>
+                      {/* <MenuItem onClick={() => navigate("/news")}>
                         <Typography textAlign="center" style={{fontSize:'15px'}}>Berita</Typography>
-                      </MenuItem>
+                      </MenuItem> */}
                       
 
                       { isAnyToken != null ? (
                         <>
-                        <MenuItem onClick={() => navigate("/riwayattran")}>
+                        <MenuItem onClick={() => navigate("/reservasi")}>
+                        <Typography textAlign="center" style={{fontSize:'15px'}}>Reservasi Vaksin</Typography>
+                        </MenuItem>
+                        <MenuItem onClick={() => navigate("/reservasicovid")}>
+                          <Typography textAlign="center" style={{fontSize:'15px'}}>Reservasi Tes Covid</Typography>
+                        </MenuItem>
+                        <MenuItem onClick={() => navigate("/tiketvaksin")}>
+                          <Typography textAlign="center" style={{fontSize:'15px'}}>Cek Vaksin</Typography>
+                        </MenuItem>
+                        <MenuItem onClick={() => navigate("/upload")}>
                           <Typography textAlign="center" style={{fontSize:'15px'}}>Upload Hasil Vaksin</Typography>
                         </MenuItem>
 

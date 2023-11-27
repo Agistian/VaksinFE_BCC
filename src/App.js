@@ -22,6 +22,15 @@ import ScrollTop from './components/ScrollTop';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import GlobalStyles	from './templates/globalStyles';
 import Reservasi from './pages/Reservasi';
+import ReservasiCovid from './pages/ReservasiCovid';
+import TiketVaksin from './pages/TiketVaksin';
+import Sertif from './pages/Sertif';
+import ShowTiket from './pages/ShowTiket';
+import PesertaVaksin from './pages/PesertaVaksin';
+import Upload from './pages/Upload';
+import Artikel from './pages/Artikel';
+import Artikel3 from './pages/Artikel3';
+import Artikel2 from './pages/Artikel2';
 // var express = require('express')
 // var cors = require('cors')
 
@@ -54,12 +63,12 @@ function App() {
 			<Routes>
 				<Route exact path="/" element={<Home />} />
 
-				<Route path="/detswab" element={
+				{/* <Route path="/detswab" element={
 					<PrivateRoute>
 						<DetSwab />
 					</PrivateRoute>
 						
-				}/>
+				}/> */}
 
 				<Route path="/dafvaksin" element={
 					<PrivateRoute>
@@ -68,15 +77,63 @@ function App() {
 						
 				}/>
 
-				<Route path="/swab" element={
+				{/* <Route path="/swab" element={
 						<Swab />
-				}/>
+				}/> */}
 
 				<Route path="/reservasi" element={
 						<Reservasi />
 				}/>
 
-				<Route path="/sukses" element={
+				<Route path="/reservasicovid" element={
+					<PrivateRoute>
+						<ReservasiCovid />
+					</PrivateRoute>
+				}/>
+
+				<Route path="/tiketvaksin" element={
+					<PrivateRoute>
+						<TiketVaksin />
+					</PrivateRoute>
+				}/>
+
+				<Route path="/sertif" element={
+					<PrivateRoute>
+						<Sertif />
+					</PrivateRoute>
+				}/>
+
+				<Route path="/showtiket" element={
+					<PrivateRoute>
+						<ShowTiket />
+					</PrivateRoute>
+				}/>
+
+				<Route path="/upload" element={
+					<PrivateRoute>
+						<PesertaVaksin />
+					</PrivateRoute>
+				}/>
+
+				<Route path="/uploadhasil" element={
+					<PrivateRoute>
+						<Upload />
+					</PrivateRoute>
+				}/>
+
+				<Route path="/artikel" element={
+						<Artikel />
+				}/>
+
+				<Route path="/artikel2" element={
+						<Artikel2 />
+				}/>
+
+				<Route path="/artikel3" element={
+						<Artikel3 />
+				}/>
+
+				{/* <Route path="/sukses" element={
 					<PrivateRoute>
 						<Sukses />
 					</PrivateRoute>
@@ -139,7 +196,7 @@ function App() {
 						<Akun/>
 					</PrivateRoute>
 					
-				} />
+				} /> */}
 
 				<Route path="/login" element={
 					<RestrictedRoute>

@@ -1,19 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from 'styled-components';
 import HideAppBar from '../components/Navbar';
 import Footer from '../components/Footer';
 import '../App.css';
 import axios from 'axios';
 import { useAuth } from '../config/Auth';
-import {InformasiSwab} from '../components/Poli';
 import { useNavigate } from 'react-router-dom';
-import {MainForm, Input, MainButton} from '../components/AccountForm';
-import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import DatePicker from '@mui/lab/DatePicker';
 import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
+import Aos from "aos";
+import "aos/dist/aos.css";
 
 const Content = styled.div`
 	width: 100%;
@@ -63,6 +59,27 @@ const Button = styled.button`
 	}
 `;
 
+const Button2 = styled.button`
+    background: white;
+	font-weight: bold;
+	color: #005C7B ;
+	border: 1px solid #005C7B;
+	padding: 5px 5px;
+	font-size: 2rem;
+	font-family: inherit;
+	border-radius: 39px;
+	transition: 0.2s all;
+	margin-top: 20px;
+    margin-bottom: 20px;
+    width:100px;
+	&:hover {
+        border:none;
+		cursor: pointer;
+        color:white;
+		background: var(--button, linear-gradient(98deg, #41AAAA 0.33%, #007299 93.35%));
+	}
+`;
+
 const Shape = styled.div`
     display: flex;
     flex-direction: column;
@@ -73,8 +90,25 @@ const Shape = styled.div`
     box-shadow: 0px 20px 20px 0px rgba(0, 0, 0, 0.08), 0px 0px 2px 0px rgba(0, 0, 0, 0.12);
     margin-bottom: 20px;
 `;
-  
+
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: '#E3E3FB',
+    boxShadow: 24,
+    p: 4,
+};
+
 const DafVaksin = () => {
+    
+    // untuk atur durasi effect
+    useEffect(() => {
+        Aos.init({duration: 1000});
+    },[]);
+
     const {  setAndGetTokens } = useAuth();
 	const [forms, setForms] = useState({
 		email: '',
@@ -90,22 +124,6 @@ const DafVaksin = () => {
     const handleClose = () => setOpen(false);
     
     const navigate = useNavigate();
-
-    //select
-    const [age, setAge] = React.useState('');
-
-    const handleChange = (event) => {
-        setAge(event.target.value);
-    };
-    //select
-
-    //Datepicker
-    const [value, setValue] = React.useState(new Date('2014-08-18T21:11:54'));
-
-    const handleUbah = (newValue) => {
-        setValue(newValue);
-    };
-    //Datepicker
 
     return (
         <div>
@@ -130,96 +148,78 @@ const DafVaksin = () => {
                         </Teks2>
 
                         <div style={{marginLeft:'70px', marginRight:'80px', marginTop:'40px',display:'flex', justifyContent:'center', alignItems:'center'}}>
-                            <MainForm className="col-md-12"  style={{display:'flex'}}>
-
-                                <div style={{display:'flex', width:'100%',flexDirection:'row', backgroundColor:'red'}}>
+                            {/* <MainForm className="col-md-12"  style={{display:'flex'}}> */}
+                            <Form.Group className="col-md-12"  style={{display:'flex', flexDirection:'column'}} controlId="dob">
+                                <div style={{display:'flex', width:'100%',flexDirection:'row'}}>
                                     <div className="col-md-6">
-                                        <div className='Bagi'>
-                                            <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>Nama Depan :</Teks>
-                                        </div>
-                                        <Input
-                                            type="text"
-                                            name="name"
-                                            label="Masukkan nama depan anda"
+                                        <div style={{display:'flex', flexDirection:'column'}}>
+                                            <div className='Bagi'>
+                                                <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>Nama Depan :</Teks>
+                                            </div>
+                                            
+                                            <Form.Control type="text" name="name" placeholder="Masukkan nama depan anda" 
                                             onChange={(e) => {
                                                 setForms(() => ({
                                                     ...forms,
                                                     name: e.target.value
                                                 }))
                                             }}
-                                            style={{backgroundColor:'#E3E3FB', borderRadius:'20px'}}
-                                        ></Input>
-
-                                        <div className='Bagi'>
-                                            <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>NIK :</Teks>
+                                            style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}
+                                            />
                                         </div>
-                                        <Input 
-                                            type="text"
-                                            name="nik"
-                                            label="Masukkan nik anda"
+
+                                        <div style={{display:'flex',flexDirection:'column'}}>
+                                            <div className='Bagi'>
+                                                <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>NIK :</Teks>
+                                            </div>
+                                            
+                                            <Form.Control type="text" name="nik" placeholder="Masukkan nik anda" 
                                             onChange={(e) => {
                                                 setForms(() => ({
                                                     ...forms,
                                                     nik: e.target.value
                                                 }))
                                             }}
-                                            style={{backgroundColor:'#E3E3FB', borderRadius:'20px'}}
-                                        />
+                                            style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}
+                                            />
+
+                                        </div>
                                         
                                         <div className='Bagi'>
                                             <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>Tanggal Lahir :</Teks>
                                         </div>
 
-                                        {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                            <Stack>
-                                            <DatePicker
-                                                
-                                                value={value}
-                                                onChange={(newValue) => {
-                                                setValue(newValue);
-                                                }}
-                                                InputProps={{style: {fontSize: 15, borderRadius:'15px',backgroundColor:'#E3E3FB',fontFamily:'Poppins-Regular'}}} 
-                                                renderInput={(params) => (
-                                                <TextField {...params} />
-                                                )}
-                                            />
-                                            </Stack>
-                                        </LocalizationProvider> */}
+                                        <Form.Control type="date" name="dob" placeholder="Date of Birth" style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}/>
 
                                         <div className='Bagi'>
                                             <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>No Telpon :</Teks>
                                         </div>
-                                        <Input 
-                                            type="text"
-                                            name="notelp"
-                                            label="Masukkan no telp anda"
+
+                                        <Form.Control type="text" name="notelp" placeholder="Masukkan no telp anda" 
                                             onChange={(e) => {
                                                 setForms(() => ({
                                                     ...forms,
                                                     notelp: e.target.value
                                                 }))
                                             }}
-                                            style={{backgroundColor:'#E3E3FB', borderRadius:'20px'}}
+                                            style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}
                                         />
-                                    
                                     </div>
 
                                     <div className="col-md-6">
                                         <div className='Bagi'>
                                             <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>Nama Belakang :</Teks>
                                         </div>
-                                        <Input
-                                            type="text"
-                                            name="namebehind"
-                                            label="Masukkan nama belakang anda"
+
+                                        <Form.Control type="text" name="namebehind" placeholder="Masukkan nama belakang anda" 
                                             onChange={(e) => {
                                                 setForms(() => ({
                                                     ...forms,
                                                     namebehind: e.target.value
                                                 }))
                                             }}
-                                            style={{backgroundColor:'#E3E3FB', borderRadius:'20px'}}
-                                        ></Input>
+                                            style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}
+                                        />
 
                                         <div className='Bagi'>
                                             <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>Jenis Kelamin :</Teks>
@@ -235,7 +235,7 @@ const DafVaksin = () => {
                                                         name="group1"
                                                         type={type}
                                                         id={`inline-${type}-1`}
-                                                        style={{fontFamily:'Poppins-Regular', fontSize:'17px', backgroundColor:'#E3E3FB',borderRadius:'10px',paddingLeft:'50px', paddingRight:'10px'}}
+                                                        style={{fontFamily:'Poppins-Regular', fontSize:'17px', backgroundColor:'#E6E6E6',borderRadius:'10px',paddingLeft:'50px', paddingRight:'10px'}}
                                                     />
                                                     <Form.Check
                                                         inline
@@ -243,7 +243,7 @@ const DafVaksin = () => {
                                                         name="group1"
                                                         type={type}
                                                         id={`inline-${type}-2`}
-                                                        style={{fontFamily:'Poppins-Regular', fontSize:'17px', backgroundColor:'#E3E3FB',borderRadius:'10px',paddingLeft:'50px', paddingRight:'10px'}}
+                                                        style={{fontFamily:'Poppins-Regular', fontSize:'17px', backgroundColor:'#E6E6E6',borderRadius:'10px',paddingLeft:'50px', paddingRight:'10px'}}
                                                     />
                                                     </div>
                                                 ))}
@@ -253,35 +253,31 @@ const DafVaksin = () => {
                                         <div className='Bagi'>
                                             <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>Umur :</Teks>
                                         </div>
-                                        <Input 
-                                            type="text"
-                                            name="age"
-                                            label="Masukkan umur anda"
+
+                                        <Form.Control type="text" name="age" placeholder="Masukkan umur anda" 
                                             onChange={(e) => {
                                                 setForms(() => ({
                                                     ...forms,
                                                     age: e.target.value
                                                 }))
                                             }}
-                                            style={{backgroundColor:'#E3E3FB', borderRadius:'20px'}}
+                                            style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}
                                         />
-
+                                       
                                         <div className='Bagi'>
                                             <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>Email :</Teks>
                                         </div>
-                                        <Input 
-                                            type="text"
-                                            name="email"
-                                            label="Masukkan email anda"
+
+                                        <Form.Control type="text" name="email" placeholder="Masukkan email anda" 
                                             onChange={(e) => {
                                                 setForms(() => ({
                                                     ...forms,
                                                     email: e.target.value
                                                 }))
                                             }}
-                                            style={{backgroundColor:'#E3E3FB', borderRadius:'20px'}}
-                                        />
-
+                                            style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}
+                                            />
+                                       
                                     </div>
                                 </div>
                                 
@@ -289,27 +285,49 @@ const DafVaksin = () => {
                                     <div className='Bagi'>
                                         <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>Alamat Lengkap :</Teks>
                                     </div>
-                                    <Input 
-                                        type="textarea"
-                                        name="alamat"
-                                        label=""
-                                        onChange={(e) => {
-                                            setForms(() => ({
-                                                ...forms,
-                                                alamat: e.target.value
-                                            }))
-                                        }}
-                                        style={{backgroundColor:'#E3E3FB', borderRadius:'20px'}}
+                                    
+                                    <Form.Control type="textarea" name="alamat" placeholder="Masukkan alamat anda" 
+                                            onChange={(e) => {
+                                                setForms(() => ({
+                                                    ...forms,
+                                                    nik: e.target.value
+                                                }))
+                                            }}
+                                            style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}
                                     />
                                 </div>
 
-                                <Button>Simpan Form</Button>
+                                <Button onClick={handleOpen} style={{marginBottom:'20px', width:'30%', justifyContent:'center', alignItems:'center', alignSelf:'center'}}>Simpan Form</Button>
 
-                            </MainForm>
+                            </Form.Group>
+                            {/* </MainForm> */}
                         </div>
                     </div>
                     
-            </Content>
+                    <Modal show={open} onHide={handleClose} style={{marginTop:'150px'}}>
+                       
+                        <Modal.Title style={{border:'none', display:'flex', marginTop:'20px',flexDirection:'column',justifyContent:'center', alignItems:'center'}}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="49" height="48" viewBox="0 0 49 48" fill="none">
+                                <path d="M24.5 44C30.0228 44 35.0228 41.7614 38.6421 38.1421C42.2614 34.5228 44.5 29.5228 44.5 24C44.5 18.4772 42.2614 13.4772 38.6421 9.85786C35.0228 6.23858 30.0228 4 24.5 4C18.9772 4 13.9772 6.23858 10.3579 9.85786C6.73858 13.4772 4.5 18.4772 4.5 24C4.5 29.5228 6.73858 34.5228 10.3579 38.1421C13.9772 41.7614 18.9772 44 24.5 44Z" fill="white" stroke="black" stroke-width="4" stroke-linejoin="round"/>
+                                <path d="M16.5 24L22.5 30L34.5 18" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+
+                            <Teks style={{textAlign:'center', fontSize:'25px',marginTop:'10px'}}>Data Form Telah disimpan!</Teks>
+
+                            <Teks2 style={{textAlign:'center'}}>Selamat data reservasi vaksin Anda telah tersimpan! Harap lakukan pengecekan status tiket vaksin Anda secara berkala.</Teks2>
+                            
+                            <div style={{display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
+                                <Button onClick={() => navigate("/tiketvaksin")}>
+                                    Lihat Status Tiket
+                                </Button>
+                                <Button2 onClick={handleClose}>
+                                    Selesai
+                                </Button2>
+                            </div>
+                        </Modal.Title>
+                       
+                    </Modal>
+                </Content>
                
             <Footer style={{position:'absolute'}}/>
         </div>

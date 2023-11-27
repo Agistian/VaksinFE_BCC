@@ -1,18 +1,14 @@
-import React ,{useState} from "react";
+import React ,{useState, useEffect} from "react";
 import styled from 'styled-components';
 import HideAppBar from '../components/Navbar';
 import Footer from '../components/Footer';
-import InfoHome from "../components/InfoHome";
 import '../App.css';
 // import Button from '@mui/material/Button';
 import vaksin2 from '../asset/icon/vaksin2.svg';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../config/Auth';
-import { tweetAPI } from '../config/api';
-import useSWR from 'swr';
-import axios from 'axios';
-import Alert from 'react-bootstrap/Alert';
-import Card from 'react-bootstrap/Card';
+import Aos from "aos";
+import "aos/dist/aos.css";
 
 const Content = styled.div`
     width: 100%;
@@ -78,7 +74,9 @@ const Shape = styled.div`
 
 const Reservasi = () => {
     
-    
+    useEffect(() => {
+        Aos.init({duration: 1000});
+    },[]);
     const navigate = useNavigate()
     const { authToken } = useAuth();
 
@@ -101,19 +99,18 @@ const Reservasi = () => {
                         Halaman Utama
                     </Teks2>
 
-                    <div style={{display:'flex', marginLeft:'3em', fontSize:'3.5em', marginTop:'20px'}}>
+                    <div data-aos="fade-up" style={{display:'flex', marginLeft:'3em', fontSize:'3.5em', marginTop:'20px'}}>
                         <Teks>Pilih&nbsp;</Teks>
-                        <Teks3>Jadwal Vaksin
-                        </Teks3>
+                        <Teks3>Jadwal Vaksin</Teks3>
                     </div >
                         
-                    <div style={{marginLeft:'10em'}}>
+                    <div data-aos="fade-up" style={{marginLeft:'10em'}}>
                         <img src={vaksin2} alt="Logo" />
                     </div>
                 </div>
 
                 <div className="col-md-6" style={{paddingTop:'150px',height: '80%',justifyContent:'left', alignItems:'left', textAlign:'left'}}>
-                    <Shape className="col-md-8">
+                    <Shape data-aos="fade-up" className="col-md-8">
                         <div style={{display:'flex'}}>
                             <div>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
@@ -126,7 +123,7 @@ const Reservasi = () => {
                                     <Teks2 style={{color:'black', fontWeight:'700'}}>Senin, 13 November 2023</Teks2>
                                 </div>
                                 <div>
-                                    <Teks2>Jadwal tersedia</Teks2>
+                                    <Teks2>Waktu Pelaksanaan: 08.00 - 11.00</Teks2>
                                 </div>
                             </div>
                         </div>
@@ -136,7 +133,7 @@ const Reservasi = () => {
                         </div>
                     </Shape>
 
-                    <Shape className="col-md-8">
+                    <Shape data-aos="fade-up" className="col-md-8">
                         <div style={{display:'flex'}}>
                             <div>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
@@ -149,7 +146,7 @@ const Reservasi = () => {
                                     <Teks2 style={{color:'black', fontWeight:'700'}}>Senin, 13 November 2023</Teks2>
                                 </div>
                                 <div>
-                                    <Teks2>Jadwal tersedia</Teks2>
+                                    <Teks2>Waktu Pelaksanaan: 13.00 - 15.00</Teks2>
                                 </div>
                             </div>
                         </div>
@@ -159,7 +156,7 @@ const Reservasi = () => {
                         </div>
                     </Shape>
 
-                    <Shape className="col-md-8">
+                    <Shape data-aos="fade-up" className="col-md-8">
                         <div style={{display:'flex'}}>
                             <div>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
@@ -169,10 +166,10 @@ const Reservasi = () => {
                             </div>
                             <div style={{display:'flex', flexDirection:'column', marginLeft:'10px'}}>
                                 <div>
-                                    <Teks2 style={{color:'black', fontWeight:'700'}}>Senin, 13 November 2023</Teks2>
+                                    <Teks2 style={{color:'black', fontWeight:'700'}}>Rabu, 15 November 2023</Teks2>
                                 </div>
                                 <div>
-                                    <Teks2>Jadwal tersedia</Teks2>
+                                    <Teks2>Waktu Pelaksanaan: 08.00 - 11.00</Teks2>
                                 </div>
                             </div>
                         </div>
@@ -182,7 +179,7 @@ const Reservasi = () => {
                         </div>
                     </Shape>
 
-                    <Shape className="col-md-8">
+                    <Shape data-aos="fade-up" className="col-md-8">
                         <div style={{display:'flex'}}>
                             <div>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
@@ -192,10 +189,10 @@ const Reservasi = () => {
                             </div>
                             <div style={{display:'flex', flexDirection:'column', marginLeft:'10px'}}>
                                 <div>
-                                    <Teks2 style={{color:'black', fontWeight:'700'}}>Senin, 13 November 2023</Teks2>
+                                    <Teks2 style={{color:'black', fontWeight:'700'}}>Kamis, 16 November 2023</Teks2>
                                 </div>
                                 <div>
-                                    <Teks2>Jadwal tersedia</Teks2>
+                                    <Teks2>Waktu Pelaksanaan: 08.00 - 11.00</Teks2>
                                 </div>
                             </div>
                         </div>

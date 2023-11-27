@@ -21,7 +21,7 @@ export const Wrapper = styled.div`
 `;
 
 export const WrapperImg = styled.div`
-	background-image: url("./1.png");
+	background-image: url("./backgroundLogin.png");
 	width: 55%;
 	padding: 5rem;
 	display: flex;
