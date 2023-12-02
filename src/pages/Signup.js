@@ -106,15 +106,14 @@ const Signup = () => {
 		password: '',
 		fullName: '',
 		mobile:'',
-		gender:''
+		gender:'',
+		address:'-'
 	});
 	const [isError, setIsError] = useState({ status: false, message: '' });
 
 	const navigate = useNavigate();
 	const handleSignup = async (e) => {
 		e.preventDefault()
-		//console.log(forms)
-		// register usernya
 		console.log(forms.fullName);
 		console.log(forms.username);
 		console.log(forms.email);
@@ -123,16 +122,13 @@ const Signup = () => {
 		console.log(forms.gender);
 
 		try {
-            const loginResponse = await axios.post('http://localhost:3000/v1/users/register', {
+            const loginResponse = await axios.post('https://ipsi-vaccin-api-ec7cf074abb5.herokuapp.com/v1/users/register', {
                 ...forms,
             });
             console.log("berhasil");
             console.log(loginResponse);
-            // const token = loginResponse.data.id;
-            // setAndGetTokens(token);
-            // alert("Sign Up Berhasil");
-            // navigate('/', { replace: true });
-            // console.log(loginResponse, token, 'tokenton');
+            alert("Sign Up Berhasil");
+            navigate('/login', { replace: true });
         } catch (error) {
             if (error.response) {
             // Respon dari server dengan kode status selain 2xx

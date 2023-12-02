@@ -19,6 +19,8 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Aos from "aos";
 import "aos/dist/aos.css";
+import Modal from 'react-bootstrap/Modal';
+import axios from 'axios';
 
 const Teks = styled.div`
     font-family: Poppins-SemiBold;
@@ -93,47 +95,51 @@ const Login = () => {
         Aos.init({duration: 1000});
     },[]);
 
-	const { setAndGetTokens } = useAuth();
+	const { setAndGetTokens, setIdUser} = useAuth();
+	const isAnyToken = JSON.parse(localStorage.getItem('token'));
+
 	const [forms, setForms] = useState({username:"", password:""});
 	const [isError, setIsError] = useState({ status: false, message: '' });
 	const navigate = useNavigate();
-
-	const google = async (e) => {
-		window.location.href = "http://localhost:5000/user/google";
-	}
-
 	const [showAl, setShowAl] = useState(false);
+	const [show, setShow] = useState(false);
+	const handleShow = () => setShow(true);
+	const [data, setData] = useState([]); 
 
+	
 	const handleLogin = async (e) => {
 		e.preventDefault()
-
-		setAndGetTokens('token');
+		try {
+		const loginResponse = await axios.post('https://ipsi-vaccin-api-ec7cf074abb5.herokuapp.com/v1/users/login',{
+			...forms,
+		});
+		const token = (loginResponse.data.token);
+		setAndGetTokens(token);
+		setIdUser(loginResponse.data.id);
 		alert("Login Berhasil");
 		navigate('/', { replace: true });
+		// handleShow()
+		} catch (error) {
+			if (error.response) {
+			// Respon dari server dengan kode status selain 2xx
+			console.error('Kesalahan pada respon server:', error.response.data);
+			alert(error.response.data);
+			} else if (error.request) {
+			// Tidak ada respon dari server
+			console.error('Tidak ada respon dari server:', error.request);
+			alert(error.request);
+			} else {
+			// Kesalahan lainnya
+			console.error('Kesalahan:', error.message);
+			alert(error.message.value);
+			}
+		}
+	}
 
-		// console.log(forms);
-		// const csrftoken = Cookies.get('csrftoken')
-		// try {
-		// 	// http://intern-bcc-3.ap-southeast-1.elasticbeanstalk.com/
-		// 	const loginResponse = await axios.post('http://ad72-139-195-213-30.ngrok.io/user/login',{ 
-		// 		...forms,
-		// 	});
-		// 	//jika sukses
-		// 	if (loginResponse.data.success) {
-				
-		// 		const token = loginResponse.data.data.token;
-		// 		setAndGetTokens(token);
-		// 		alert("Login Berhasil");
-		// 		navigate('/', { replace: true });
-		// 	}
-		// } catch (error) {
-		// 	setIsError((isError) => ({
-		// 		status: true,
-		// 		message: 'Error while try to logged in',
-		// 	}));
-		// 	console.log(error, 'in login');
-		// }
-	};
+	const handleClose = () => {
+		navigate("/", {replace:true})
+	}
+
 	return (
 		<div>
 			<Content style={{height:'737px',justifyContent:'center', alignItems:'center'}}>
@@ -208,6 +214,20 @@ const Login = () => {
 					</div>
 				</div>
 			</Content>
+			
+			<Modal show={show} onHide={handleClose}>
+				<Modal.Header closeButton>
+				<Modal.Title style={{display:'flex'}}>
+					<div>
+						<img src="../icon/sukses.png"/>
+					</div>
+					&nbsp;
+					<Teks2 style={{paddingTop:'5px'}}>
+					Berhasil Login
+					</Teks2> 
+				</Modal.Title>
+				</Modal.Header>
+			</Modal>
 		</div>
 	);
 };

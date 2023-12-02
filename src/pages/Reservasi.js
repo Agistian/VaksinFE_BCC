@@ -77,13 +77,37 @@ const Reservasi = () => {
     useEffect(() => {
         Aos.init({duration: 1000});
     },[]);
+
     const navigate = useNavigate()
     const { authToken } = useAuth();
+    const isAnyToken = JSON.parse(localStorage.getItem('token'));
+    const [data, setData] = useState([]); 
 
-    // axios.get(`http://localhost:5000/dashboard/`).then((res) => {
-    //     console.log(res);
-    // // setPost(response.data);
-    // }).catch(err => console.log(err));
+    // useEffect(() => {
+    //     fetch(`https://ipsi-vaccin-api-ec7cf074abb5.herokuapp.com/v1/vaccine-schedules`, {
+    //         method: 'GET',
+    //         headers: {
+    //             'Content-type': 'application/json',
+    //             'Authorization': `Bearer ${isAnyToken}`, 
+    //         },
+    //     })
+    //     .then(response => response.json()) 
+    //     .then(data => setData(data.vaccine_schedules), console.log(data)); 
+    // },[]);
+
+    const filteredData = data.filter((el) => {
+            console.log("A");
+            console.log(el.scheduleDate);
+            console.log(el.scheduleTime);
+            console.log(el.location);
+            return (el);
+    })
+
+    const handleReservasi = async(e) => {
+        console.log(e);
+        localStorage.setItem('idScheduleCurrent', JSON.stringify(e))
+        navigate("/dafvaksin")
+    }
 
     return (
         <div>
@@ -110,97 +134,33 @@ const Reservasi = () => {
                 </div>
 
                 <div className="col-md-6" style={{paddingTop:'150px',height: '80%',justifyContent:'left', alignItems:'left', textAlign:'left'}}>
-                    <Shape data-aos="fade-up" className="col-md-8">
-                        <div style={{display:'flex'}}>
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
-                                <path d="M14.0002 25.6667C17.2218 25.6667 20.1385 24.3608 22.2497 22.2496C24.361 20.1383 25.6668 17.2216 25.6668 14C25.6668 10.7784 24.361 7.86169 22.2497 5.75041C20.1385 3.63917 17.2218 2.33333 14.0002 2.33333C10.7785 2.33333 7.86186 3.63917 5.75058 5.75041C3.63933 7.86169 2.3335 10.7784 2.3335 14C2.3335 17.2216 3.63933 20.1383 5.75058 22.2496C7.86186 24.3608 10.7785 25.6667 14.0002 25.6667Z" fill="#F5F5F5" stroke="#4F4F4F" stroke-width="2" stroke-linejoin="round"/>
-                                <path d="M9.3335 14L12.8335 17.5L19.8335 10.5" stroke="#4F4F4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
-                            <div style={{display:'flex', flexDirection:'column', marginLeft:'10px'}}>
+                    {/* {filteredData.map((item) => (
+                        <Shape key={item.id} data-aos="fade-up" className="col-md-8">
+                            <div style={{display:'flex'}}>
                                 <div>
-                                    <Teks2 style={{color:'black', fontWeight:'700'}}>Senin, 13 November 2023</Teks2>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
+                                    <path d="M14.0002 25.6667C17.2218 25.6667 20.1385 24.3608 22.2497 22.2496C24.361 20.1383 25.6668 17.2216 25.6668 14C25.6668 10.7784 24.361 7.86169 22.2497 5.75041C20.1385 3.63917 17.2218 2.33333 14.0002 2.33333C10.7785 2.33333 7.86186 3.63917 5.75058 5.75041C3.63933 7.86169 2.3335 10.7784 2.3335 14C2.3335 17.2216 3.63933 20.1383 5.75058 22.2496C7.86186 24.3608 10.7785 25.6667 14.0002 25.6667Z" fill="#F5F5F5" stroke="#4F4F4F" stroke-width="2" stroke-linejoin="round"/>
+                                    <path d="M9.3335 14L12.8335 17.5L19.8335 10.5" stroke="#4F4F4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
                                 </div>
-                                <div>
-                                    <Teks2>Waktu Pelaksanaan: 08.00 - 11.00</Teks2>
-                                </div>
-                            </div>
-                        </div>
-                        <div style={{justifyContent:'center', alignItems:'center', textAlign:'center'}}>
-                            <Button variant="contained" onClick={() => navigate("/dafvaksin")} style={{fontFamily:'Poppins-Regular', textTransform: 'capitalize', fontSize:'13px', width:'150px'
-                            }} >Reservasi Sekarang</Button>
-                        </div>
-                    </Shape>
-
-                    <Shape data-aos="fade-up" className="col-md-8">
-                        <div style={{display:'flex'}}>
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
-                                <path d="M14.0002 25.6667C17.2218 25.6667 20.1385 24.3608 22.2497 22.2496C24.361 20.1383 25.6668 17.2216 25.6668 14C25.6668 10.7784 24.361 7.86169 22.2497 5.75041C20.1385 3.63917 17.2218 2.33333 14.0002 2.33333C10.7785 2.33333 7.86186 3.63917 5.75058 5.75041C3.63933 7.86169 2.3335 10.7784 2.3335 14C2.3335 17.2216 3.63933 20.1383 5.75058 22.2496C7.86186 24.3608 10.7785 25.6667 14.0002 25.6667Z" fill="#F5F5F5" stroke="#4F4F4F" stroke-width="2" stroke-linejoin="round"/>
-                                <path d="M9.3335 14L12.8335 17.5L19.8335 10.5" stroke="#4F4F4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
-                            <div style={{display:'flex', flexDirection:'column', marginLeft:'10px'}}>
-                                <div>
-                                    <Teks2 style={{color:'black', fontWeight:'700'}}>Senin, 13 November 2023</Teks2>
-                                </div>
-                                <div>
-                                    <Teks2>Waktu Pelaksanaan: 13.00 - 15.00</Teks2>
+                                <div style={{display:'flex', flexDirection:'column', marginLeft:'10px'}}>
+                                    <div>
+                                        <Teks2 style={{color:'black', fontWeight:'700'}}>{item.scheduleDate}</Teks2>
+                                    </div>
+                                    <div>
+                                        <Teks2>Waktu Pelaksanaan: {item.scheduleTime}</Teks2>
+                                    </div>
+                                    <div>
+                                        <Teks2>Lokasi: {item.location}</Teks2>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div style={{justifyContent:'center', alignItems:'center', textAlign:'center'}}>
-                            <Button variant="contained" onClick={() => navigate("/laypol")} style={{fontFamily:'Poppins-Regular', textTransform: 'capitalize', fontSize:'13px', width:'150px'
-                            }} >Reservasi Sekarang</Button>
-                        </div>
-                    </Shape>
-
-                    <Shape data-aos="fade-up" className="col-md-8">
-                        <div style={{display:'flex'}}>
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
-                                <path d="M14.0002 25.6667C17.2218 25.6667 20.1385 24.3608 22.2497 22.2496C24.361 20.1383 25.6668 17.2216 25.6668 14C25.6668 10.7784 24.361 7.86169 22.2497 5.75041C20.1385 3.63917 17.2218 2.33333 14.0002 2.33333C10.7785 2.33333 7.86186 3.63917 5.75058 5.75041C3.63933 7.86169 2.3335 10.7784 2.3335 14C2.3335 17.2216 3.63933 20.1383 5.75058 22.2496C7.86186 24.3608 10.7785 25.6667 14.0002 25.6667Z" fill="#F5F5F5" stroke="#4F4F4F" stroke-width="2" stroke-linejoin="round"/>
-                                <path d="M9.3335 14L12.8335 17.5L19.8335 10.5" stroke="#4F4F4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
+                            <div style={{justifyContent:'center', alignItems:'center', textAlign:'center'}}>
+                                <Button variant="contained" onClick={()=> handleReservasi(item.id)} style={{fontFamily:'Poppins-Regular', textTransform: 'capitalize', fontSize:'13px', width:'150px'
+                                }} >Reservasi Sekarang</Button>
                             </div>
-                            <div style={{display:'flex', flexDirection:'column', marginLeft:'10px'}}>
-                                <div>
-                                    <Teks2 style={{color:'black', fontWeight:'700'}}>Rabu, 15 November 2023</Teks2>
-                                </div>
-                                <div>
-                                    <Teks2>Waktu Pelaksanaan: 08.00 - 11.00</Teks2>
-                                </div>
-                            </div>
-                        </div>
-                        <div style={{justifyContent:'center', alignItems:'center', textAlign:'center'}}>
-                            <Button variant="contained" onClick={() => navigate("/laypol")} style={{fontFamily:'Poppins-Regular', textTransform: 'capitalize', fontSize:'13px', width:'150px'
-                            }} >Reservasi Sekarang</Button>
-                        </div>
-                    </Shape>
-
-                    <Shape data-aos="fade-up" className="col-md-8">
-                        <div style={{display:'flex'}}>
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
-                                <path d="M14.0002 25.6667C17.2218 25.6667 20.1385 24.3608 22.2497 22.2496C24.361 20.1383 25.6668 17.2216 25.6668 14C25.6668 10.7784 24.361 7.86169 22.2497 5.75041C20.1385 3.63917 17.2218 2.33333 14.0002 2.33333C10.7785 2.33333 7.86186 3.63917 5.75058 5.75041C3.63933 7.86169 2.3335 10.7784 2.3335 14C2.3335 17.2216 3.63933 20.1383 5.75058 22.2496C7.86186 24.3608 10.7785 25.6667 14.0002 25.6667Z" fill="#F5F5F5" stroke="#4F4F4F" stroke-width="2" stroke-linejoin="round"/>
-                                <path d="M9.3335 14L12.8335 17.5L19.8335 10.5" stroke="#4F4F4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
-                            <div style={{display:'flex', flexDirection:'column', marginLeft:'10px'}}>
-                                <div>
-                                    <Teks2 style={{color:'black', fontWeight:'700'}}>Kamis, 16 November 2023</Teks2>
-                                </div>
-                                <div>
-                                    <Teks2>Waktu Pelaksanaan: 08.00 - 11.00</Teks2>
-                                </div>
-                            </div>
-                        </div>
-                        <div style={{justifyContent:'center', alignItems:'center', textAlign:'center'}}>
-                            <Button variant="contained" onClick={() => navigate("/laypol")} style={{fontFamily:'Poppins-Regular', textTransform: 'capitalize', fontSize:'13px', width:'150px'
-                            }} >Reservasi Sekarang</Button>
-                        </div>
-                    </Shape>
+                        </Shape>
+                    ))} */}
                 </div>
             </Content>
 

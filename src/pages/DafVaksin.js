@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import {MainForm} from '../components/AccountForm';
+import React, { useState, useEffect, useCallback } from "react";
 import styled from 'styled-components';
 import HideAppBar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -109,12 +110,70 @@ const DafVaksin = () => {
         Aos.init({duration: 1000});
     },[]);
 
-    const {  setAndGetTokens } = useAuth();
+    const {  setAndGetTokens, idCurrentUser} = useAuth();
+    const isAnyToken = JSON.parse(localStorage.getItem('token'));
+
 	const [forms, setForms] = useState({
 		email: '',
-		password: '',
-		name: '',
+		firstName: '',
+        lastName:'',
+		mobile:'',
+		gender:'',
+		address:'',
+        age: 9,
+        dateOfBirth:'',
+        NIK:''
 	});
+
+    const currentSchedule = JSON.parse(localStorage.getItem('idScheduleCurrent'));
+    
+    const handleDaftar = async (e) => {
+		e.preventDefault()
+        console.log(isAnyToken);
+        console.log(JSON.parse(localStorage.getItem('idScheduleCurrent')));
+		console.log(forms.firstName);
+        console.log(forms.lastName);
+		console.log(forms.NIK);
+		console.log(forms.email);
+		console.log(forms.age);
+		console.log(forms.mobile);
+		console.log(forms.gender);
+        console.log(forms.dateOfBirth);
+        console.log(forms.address);
+
+		try {
+            const daftarResponse = await axios.post(
+                `https://ipsi-vaccin-api-ec7cf074abb5.herokuapp.com/v1/bookings/vaccine-schedule/${idCurrentUser}/${currentSchedule}`, 
+                {...forms,}
+                // {
+                //     headers: {
+                //         'Content-type': 'application/json',
+                //         'Authorization': `Bearer ${isAnyToken}`,
+                //     }
+                // }
+            );
+            // const loginResponse = await axios.post(`https://ipsi-vaccin-api-ec7cf074abb5.herokuapp.com/v1/bookings/vaccine-schedules/${idCurrentUser}/${currentSchedule}`,
+            // {
+            //     ...forms,
+            // });
+            console.log("berhasil");
+            console.log(daftarResponse);
+            // alert("Sign Up Berhasil");
+            // navigate('/login', { replace: true });
+        } catch (error) {
+            if (error.response) {
+            // Respon dari server dengan kode status selain 2xx
+            console.error('Kesalahan pada respon server:', error.response.data);
+            } else if (error.request) {
+            // Tidak ada respon dari server
+            console.error('Tidak ada respon dari server:', error.request);
+            } else {
+            // Kesalahan lainnya
+            console.error('Kesalahan:', error.message);
+            }
+        }
+	};
+
 	const [isError, setIsError] = useState({ status: false, message: '' });
 
 	const { authToken } = useAuth();
@@ -124,6 +183,14 @@ const DafVaksin = () => {
     const handleClose = () => setOpen(false);
     
     const navigate = useNavigate();
+    const formatDate = useCallback((Date) => Date.toLocaleString(), []);
+    
+    const ambilDate = async(e) => {
+        setForms(() => ({
+            ...forms,
+            dateOfBirth: e.target.value
+        }))
+    }
 
     return (
         <div>
@@ -148,159 +215,177 @@ const DafVaksin = () => {
                         </Teks2>
 
                         <div style={{marginLeft:'70px', marginRight:'80px', marginTop:'40px',display:'flex', justifyContent:'center', alignItems:'center'}}>
-                            {/* <MainForm className="col-md-12"  style={{display:'flex'}}> */}
-                            <Form.Group className="col-md-12"  style={{display:'flex', flexDirection:'column'}} controlId="dob">
-                                <div style={{display:'flex', width:'100%',flexDirection:'row'}}>
-                                    <div className="col-md-6">
-                                        <div style={{display:'flex', flexDirection:'column'}}>
-                                            <div className='Bagi'>
-                                                <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>Nama Depan :</Teks>
+                            <MainForm onSubmit={handleDaftar} className="col-md-12"  style={{display:'flex', flexDirection:'column'}} controlId="dob">
+                                {/* <Form.Group onSubmit={handleDaftar} className="col-md-12"  style={{display:'flex', flexDirection:'column'}} controlId="dob"> */}
+                                    <div style={{display:'flex', width:'100%',flexDirection:'row'}}>
+                                        <div className="col-md-6">
+                                            <div style={{display:'flex', flexDirection:'column'}}>
+                                                <div className='Bagi'>
+                                                    <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>Nama Depan :</Teks>
+                                                </div>
+                                                
+                                                <Form.Control type="text" name="name" placeholder="Masukkan nama anda" 
+                                                onChange={(e) => {
+                                                    setForms(() => ({
+                                                        ...forms,
+                                                        firstName: e.target.value
+                                                    }))
+                                                }}
+                                                style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}
+                                                />
+                                            </div>
+
+                                            <div style={{display:'flex',flexDirection:'column'}}>
+                                                <div className='Bagi'>
+                                                    <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>NIK :</Teks>
+                                                </div>
+                                                
+                                                <Form.Control type="text" name="nik" placeholder="Masukkan nik anda" 
+                                                onChange={(e) => {
+                                                    setForms(() => ({
+                                                        ...forms,
+                                                        NIK: e.target.value
+                                                    }))
+                                                }}
+                                                style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}
+                                                />
+
                                             </div>
                                             
-                                            <Form.Control type="text" name="name" placeholder="Masukkan nama depan anda" 
-                                            onChange={(e) => {
-                                                setForms(() => ({
-                                                    ...forms,
-                                                    name: e.target.value
-                                                }))
-                                            }}
-                                            style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}
+                                            <div className='Bagi'>
+                                                <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>Tanggal Lahir :</Teks>
+                                            </div>
+
+                                            <Form.Control type="date" name="dob" 
+                                            onChange={(e) => ambilDate(e)}
+                                            formatDate={formatDate}
+                                            placeholder='dd/mm/yyy'
+                                            style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}/>
+
+                                            <div className='Bagi'>
+                                                <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>No Telpon :</Teks>
+                                            </div>
+
+                                            <Form.Control type="text" name="notelp" placeholder="Masukkan no telp anda" 
+                                                onChange={(e) => {
+                                                    setForms(() => ({
+                                                        ...forms,
+                                                        mobile: e.target.value
+                                                    }))
+                                                }}
+                                                style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}
                                             />
                                         </div>
 
-                                        <div style={{display:'flex',flexDirection:'column'}}>
+                                        <div className="col-md-6">
                                             <div className='Bagi'>
-                                                <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>NIK :</Teks>
+                                                <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>Nama Belakang :</Teks>
                                             </div>
-                                            
-                                            <Form.Control type="text" name="nik" placeholder="Masukkan nik anda" 
-                                            onChange={(e) => {
-                                                setForms(() => ({
-                                                    ...forms,
-                                                    nik: e.target.value
-                                                }))
-                                            }}
-                                            style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}
+
+                                            <Form.Control type="text" name="lastName" placeholder="Masukkan nama belakang" 
+                                                onChange={(e) => {
+                                                    setForms(() => ({
+                                                        ...forms,
+                                                        lastName: e.target.value
+                                                    }))
+                                                }}
+                                                style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}
                                             />
 
-                                        </div>
+                                            <div className='Bagi'>
+                                                <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>Jenis Kelamin :</Teks>
+                                            </div>
+
+                                            <div>
+                                                <Form>
+                                                    {['radio'].map((type) => (
+                                                        <div key={`inline-${type}`} className="mb-3" style={{display:'flex', justifyContent:'left'}}>
+                                                        <Form.Check
+                                                            inline
+                                                            label="Laki-laki"
+                                                            name="gender"
+                                                            value="male"
+                                                            type={type}
+                                                            id={`inline-${type}-1`}
+                                                            style={{fontFamily:'Poppins-Regular', fontSize:'17px', backgroundColor:'#E6E6E6',borderRadius:'10px',paddingLeft:'50px', paddingRight:'10px'}}
+                                                            onClick={(e) => {
+                                                                setForms(() => ({
+                                                                    ...forms,
+                                                                    gender: e.target.value
+                                                                }))
+                                                            }}
+                                                        />
+                                                        <Form.Check
+                                                            inline
+                                                            label="Perempuan"
+                                                            name="gender"
+                                                            value="female"
+                                                            type={type}
+                                                            id={`inline-${type}-2`}
+                                                            style={{fontFamily:'Poppins-Regular', fontSize:'17px', backgroundColor:'#E6E6E6',borderRadius:'10px',paddingLeft:'50px', paddingRight:'10px'}}
+                                                            onClick={(e) => {
+                                                                setForms(() => ({
+                                                                    ...forms,
+                                                                    gender: e.target.value
+                                                                }))
+                                                            }}
+                                                        />
+                                                        </div>
+                                                    ))}
+                                                </Form>
+                                            </div>
+
+                                            <div className='Bagi'>
+                                                <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>Umur :</Teks>
+                                            </div>
+
+                                            <Form.Control type="text" pattern="[0-9]*" name="age" placeholder="Masukkan umur anda" 
+                                                onChange={(e) => {
+                                                    setForms(() => ({
+                                                        ...forms,
+                                                        age: e.target.value
+                                                    }))
+                                                }}
+                                                style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}
+                                            />
                                         
-                                        <div className='Bagi'>
-                                            <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>Tanggal Lahir :</Teks>
+                                            <div className='Bagi'>
+                                                <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>Email :</Teks>
+                                            </div>
+
+                                            <Form.Control type="text" name="email" placeholder="Masukkan email anda" 
+                                                onChange={(e) => {
+                                                    setForms(() => ({
+                                                        ...forms,
+                                                        email: e.target.value
+                                                    }))
+                                                }}
+                                                style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}
+                                                />
+                                        
                                         </div>
-
-                                        <Form.Control type="date" name="dob" placeholder="Date of Birth" style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}/>
-
-                                        <div className='Bagi'>
-                                            <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>No Telpon :</Teks>
-                                        </div>
-
-                                        <Form.Control type="text" name="notelp" placeholder="Masukkan no telp anda" 
-                                            onChange={(e) => {
-                                                setForms(() => ({
-                                                    ...forms,
-                                                    notelp: e.target.value
-                                                }))
-                                            }}
-                                            style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}
-                                        />
-                                    </div>
-
-                                    <div className="col-md-6">
-                                        <div className='Bagi'>
-                                            <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>Nama Belakang :</Teks>
-                                        </div>
-
-                                        <Form.Control type="text" name="namebehind" placeholder="Masukkan nama belakang anda" 
-                                            onChange={(e) => {
-                                                setForms(() => ({
-                                                    ...forms,
-                                                    namebehind: e.target.value
-                                                }))
-                                            }}
-                                            style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}
-                                        />
-
-                                        <div className='Bagi'>
-                                            <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>Jenis Kelamin :</Teks>
-                                        </div>
-
-                                        <div>
-                                            <Form>
-                                                {['radio'].map((type) => (
-                                                    <div key={`inline-${type}`} className="mb-3" style={{display:'flex', justifyContent:'left'}}>
-                                                    <Form.Check
-                                                        inline
-                                                        label="Laki-laki"
-                                                        name="group1"
-                                                        type={type}
-                                                        id={`inline-${type}-1`}
-                                                        style={{fontFamily:'Poppins-Regular', fontSize:'17px', backgroundColor:'#E6E6E6',borderRadius:'10px',paddingLeft:'50px', paddingRight:'10px'}}
-                                                    />
-                                                    <Form.Check
-                                                        inline
-                                                        label="Perempuan"
-                                                        name="group1"
-                                                        type={type}
-                                                        id={`inline-${type}-2`}
-                                                        style={{fontFamily:'Poppins-Regular', fontSize:'17px', backgroundColor:'#E6E6E6',borderRadius:'10px',paddingLeft:'50px', paddingRight:'10px'}}
-                                                    />
-                                                    </div>
-                                                ))}
-                                            </Form>
-                                        </div>
-
-                                        <div className='Bagi'>
-                                            <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>Umur :</Teks>
-                                        </div>
-
-                                        <Form.Control type="text" name="age" placeholder="Masukkan umur anda" 
-                                            onChange={(e) => {
-                                                setForms(() => ({
-                                                    ...forms,
-                                                    age: e.target.value
-                                                }))
-                                            }}
-                                            style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}
-                                        />
-                                       
-                                        <div className='Bagi'>
-                                            <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>Email :</Teks>
-                                        </div>
-
-                                        <Form.Control type="text" name="email" placeholder="Masukkan email anda" 
-                                            onChange={(e) => {
-                                                setForms(() => ({
-                                                    ...forms,
-                                                    email: e.target.value
-                                                }))
-                                            }}
-                                            style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}
-                                            />
-                                       
-                                    </div>
-                                </div>
-                                
-                                <div>
-                                    <div className='Bagi'>
-                                        <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>Alamat Lengkap :</Teks>
                                     </div>
                                     
-                                    <Form.Control type="textarea" name="alamat" placeholder="Masukkan alamat anda" 
-                                            onChange={(e) => {
-                                                setForms(() => ({
-                                                    ...forms,
-                                                    nik: e.target.value
-                                                }))
-                                            }}
-                                            style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}
-                                    />
-                                </div>
+                                    <div>
+                                        <div className='Bagi'>
+                                            <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>Alamat Lengkap :</Teks>
+                                        </div>
+                                        
+                                        <Form.Control type="textarea" name="alamat" placeholder="Masukkan alamat anda" 
+                                                onChange={(e) => {
+                                                    setForms(() => ({
+                                                        ...forms,
+                                                        address: e.target.value
+                                                    }))
+                                                }}
+                                                style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}
+                                        />
+                                    </div>
 
-                                <Button onClick={handleOpen} style={{marginBottom:'20px', width:'30%', justifyContent:'center', alignItems:'center', alignSelf:'center'}}>Simpan Form</Button>
+                                    <Button onSubmit={handleDaftar} style={{marginBottom:'20px', width:'30%', justifyContent:'center', alignItems:'center', alignSelf:'center'}}>Simpan Form</Button>
 
-                            </Form.Group>
-                            {/* </MainForm> */}
+                                {/* </Form.Group> */}
+                            </MainForm>
                         </div>
                     </div>
                     

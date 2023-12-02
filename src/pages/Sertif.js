@@ -1,4 +1,4 @@
-import React ,{useState} from "react";
+import React ,{useState, useRef} from "react";
 import styled from 'styled-components';
 import HideAppBar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../config/Auth';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import { toPng } from 'html-to-image';
 
 const Content = styled.div`
 	width: 100%;
@@ -128,6 +129,19 @@ const Sertif = () => {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const elementRef = useRef(null);
+    const htmlToImageConvert = () => {
+        toPng(elementRef.current, { cacheBust: false })
+          .then((dataUrl) => {
+            const link = document.createElement("a");
+            link.download = "my-image-name.png";
+            link.href = dataUrl;
+            link.click();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+    };
     
     const navigate = useNavigate();
     return (
@@ -142,8 +156,8 @@ const Sertif = () => {
                 Halaman Tiket Vaksin
             </Teks2>
                 
-            <Content style={{width:'100%', marginTop:'20px', marginBottom:'20px', justifyContent:'center', alignItems:'center'}}>
-                    <div style={{width:'100%', backgroundColor:'white', marginLeft:'5%', marginRight:'5%', marginTop:'20px', paddingBottom:'20px',borderRadius:'30px',boxShadow: '0 3px 10px rgb(0 0 0 / 0.2)', textAlign:'center'}}>
+            <Content ref={elementRef} style={{width:'100%', marginTop:'20px', marginBottom:'20px', justifyContent:'center', alignItems:'center'}}>
+                    <div  style={{width:'100%', backgroundColor:'white', marginLeft:'5%', marginRight:'5%', marginTop:'20px', paddingBottom:'20px',borderRadius:'30px',boxShadow: '0 3px 10px rgb(0 0 0 / 0.2)', textAlign:'center'}}>
                         
                         <Teks3 style={{marginLeft:'2.3em', marginRight: '2em', fontFamily:'Poppins-Medium', paddingTop: '50px',fontSize:'32px'}}>
                             Sertifikat Vaksinasi COVID-19
@@ -222,7 +236,7 @@ const Sertif = () => {
                             </Shape3>
                         </div> */}
                     </div>
-                    
+
                     <Modal show={open} onHide={handleClose} style={{marginTop:'150px'}}>
                        
                         <Modal.Title style={{border:'none', display:'flex', marginTop:'20px',flexDirection:'column',justifyContent:'center', alignItems:'center'}}>
@@ -244,7 +258,7 @@ const Sertif = () => {
                        
                     </Modal>
             </Content>
-               
+            {/* <button onClick={htmlToImageConvert}>Download Image</button> */}
             <Footer style={{position:'absolute'}}/>
         </div>
     );

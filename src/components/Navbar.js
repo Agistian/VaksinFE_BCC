@@ -34,6 +34,7 @@ import styled from 'styled-components';
 import Alert from 'react-bootstrap/Alert';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Modal from 'react-bootstrap/Modal';
+import { useEffect } from 'react';
 
 
   function HideOnScroll(props) {
@@ -228,7 +229,7 @@ const Teks = styled.div`
       setAnchorElUser2(null);
     };
     
-    const { setAndGetTokens, ketId} = useAuth();
+    const { setAndGetTokens, idCurrentUser} = useAuth();
     
     const isAnyToken = JSON.parse(localStorage.getItem('token'));
     // console.log(isAnyToken);
@@ -244,6 +245,24 @@ const Teks = styled.div`
     };
 
     const navigate = useNavigate()
+    const [data, setData] = useState([]); 
+
+    useEffect(() => { 
+      console.log(idCurrentUser);
+      // setData(idCurrentUser)
+      fetch(`https://ipsi-vaccin-api-ec7cf074abb5.herokuapp.com/v1/users/${idCurrentUser}`, {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${isAnyToken}`, // notice the Bearer before your token
+            },
+        })
+        .then(response => response.json()) 
+        .then(data => localStorage.setItem('currentUsername', JSON.stringify(data.data.username))); 
+      
+        setData(JSON.parse(localStorage.getItem('currentUsername')))
+      //   console.log(data.data.fullName);
+  }, []); 
    
       return (
           <React.Fragment >
@@ -257,12 +276,16 @@ const Teks = styled.div`
                   </Typography>
 
                   <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent:'right' }}>
-                      {/* <Button
+                  { isAnyToken != null ? (
+                      <Button
                         onClick={() => navigate("/")}
                         sx={{ my: 2, color: 'black', display: 'block', paddingTop:'7.5px', fontFamily: 'OpenSans-Bold'}}
                         style={{fontSize: '1.5em'}}
-                      >HOME
-                      </Button> */}
+                      >Selamat Datang &nbsp; {data}
+                      </Button>
+                  ):(
+                    <></>
+                  )}
                       
                       
                       <Button

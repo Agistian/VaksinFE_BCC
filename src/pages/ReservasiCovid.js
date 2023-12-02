@@ -1,4 +1,4 @@
-import React ,{useState} from "react";
+import React ,{useState, useCallback} from "react";
 import styled from 'styled-components';
 import HideAppBar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -105,11 +105,71 @@ const style = {
 const ReservasiCovid = () => {
     
     const {  setAndGetTokens } = useAuth();
-	const [forms, setForms] = useState({
+    const isAnyToken = JSON.parse(localStorage.getItem('token'));
+	
+    const [forms, setForms] = useState({
 		email: '',
-		password: '',
-		name: '',
+		firstName: '',
+        lastName:'',
+		mobile:'',
+		gender:'',
+		address:'',
+        age: '',
+        dateOfBirth:'',
+        NIK:'',
+        time:'',
+        testDate:''
 	});
+
+    const currentSchedule = JSON.parse(localStorage.getItem('idScheduleCurrent'));
+    
+    const handleDaftar = async (e) => {
+		e.preventDefault()
+        console.log(isAnyToken);
+		console.log(forms.firstName);
+        console.log(forms.lastName);
+		console.log(forms.NIK);
+		console.log(forms.email);
+		console.log(forms.age);
+		console.log(forms.mobile);
+		console.log(forms.gender);
+        console.log(forms.dateOfBirth);
+        console.log(forms.address);
+        console.log(forms.time);
+        console.log(forms.testDate);
+
+		// try {
+        //     const daftarResponse = await axios.post(
+        //         `https://ipsi-vaccin-api-ec7cf074abb5.herokuapp.com/v1/covid-test-reservations`, 
+        //         {...forms,}
+        //         // {
+        //         //     headers: {
+        //         //         'Content-type': 'application/json',
+        //         //         'Authorization': `Bearer ${isAnyToken}`,
+        //         //     }
+        //         // }
+        //     );
+        //     // const loginResponse = await axios.post(`https://ipsi-vaccin-api-ec7cf074abb5.herokuapp.com/v1/bookings/vaccine-schedules/${idCurrentUser}/${currentSchedule}`,
+        //     // {
+        //     //     ...forms,
+        //     // });
+        //     console.log("berhasil");
+        //     console.log(daftarResponse);
+        //     // alert("Sign Up Berhasil");
+        //     // navigate('/login', { replace: true });
+        // } catch (error) {
+        //     if (error.response) {
+        //     // Respon dari server dengan kode status selain 2xx
+        //     console.error('Kesalahan pada respon server:', error.response.data);
+        //     } else if (error.request) {
+        //     // Tidak ada respon dari server
+        //     console.error('Tidak ada respon dari server:', error.request);
+        //     } else {
+        //     // Kesalahan lainnya
+        //     console.error('Kesalahan:', error.message);
+        //     }
+        // }
+	};
 	const [isError, setIsError] = useState({ status: false, message: '' });
 
 	const { authToken } = useAuth();
@@ -117,6 +177,21 @@ const ReservasiCovid = () => {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const formatDate = useCallback((Date) => Date.toLocaleString(), []);
+    
+    const ambilDate = async(e) => {
+        setForms(() => ({
+            ...forms,
+            dateOfBirth: e.target.value
+        }))
+    }
+
+    const ambilDateTes = async(e) => {
+        setForms(() => ({
+            ...forms,
+            testDate: e.target.value
+        }))
+    }
     
     const navigate = useNavigate();
     return (
@@ -150,7 +225,11 @@ const ReservasiCovid = () => {
                                             <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>Tanggal Tes :</Teks>
                                         </div>
 
-                                        <Form.Control type="date" name="dob" placeholder="Date of Birth" style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}/>
+                                        <Form.Control type="date" name="dob" 
+                                        onChange={(e) => ambilDateTes(e)}
+                                        formatDate={formatDate}
+                                        placeholder='dd/mm/yyy'
+                                        style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}/>
 
                                         <div style={{display:'flex', flexDirection:'column'}}>
                                             <div className='Bagi'>
@@ -161,7 +240,7 @@ const ReservasiCovid = () => {
                                             onChange={(e) => {
                                                 setForms(() => ({
                                                     ...forms,
-                                                    name: e.target.value
+                                                    firstName: e.target.value
                                                 }))
                                             }}
                                             style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}
@@ -177,7 +256,7 @@ const ReservasiCovid = () => {
                                             onChange={(e) => {
                                                 setForms(() => ({
                                                     ...forms,
-                                                    nik: e.target.value
+                                                    NIK: e.target.value
                                                 }))
                                             }}
                                             style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}
@@ -189,7 +268,11 @@ const ReservasiCovid = () => {
                                             <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>Tanggal Lahir :</Teks>
                                         </div>
 
-                                        <Form.Control type="date" name="dob" placeholder="Date of Birth" style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}/>
+                                        <Form.Control type="date" name="dob" 
+                                         onChange={(e) => ambilDate(e)}
+                                         formatDate={formatDate}
+                                         placeholder='dd/mm/yyy'
+                                        style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}/>
 
                                         <div className='Bagi'>
                                             <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>No Telpon :</Teks>
@@ -199,7 +282,7 @@ const ReservasiCovid = () => {
                                             onChange={(e) => {
                                                 setForms(() => ({
                                                     ...forms,
-                                                    notelp: e.target.value
+                                                    mobile: e.target.value
                                                 }))
                                             }}
                                             style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}
@@ -215,7 +298,7 @@ const ReservasiCovid = () => {
                                             onChange={(e) => {
                                                 setForms(() => ({
                                                     ...forms,
-                                                    jam: e.target.value
+                                                    time: e.target.value
                                                 }))
                                             }}
                                             style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}
@@ -229,7 +312,7 @@ const ReservasiCovid = () => {
                                             onChange={(e) => {
                                                 setForms(() => ({
                                                     ...forms,
-                                                    namebehind: e.target.value
+                                                    lastName: e.target.value
                                                 }))
                                             }}
                                             style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}
@@ -246,17 +329,31 @@ const ReservasiCovid = () => {
                                                     <Form.Check
                                                         inline
                                                         label="Laki-laki"
-                                                        name="group1"
+                                                        name="gender"
+                                                        value="male"
                                                         type={type}
                                                         id={`inline-${type}-1`}
+                                                        onClick={(e) => {
+                                                            setForms(() => ({
+                                                                ...forms,
+                                                                gender: e.target.value
+                                                            }))
+                                                        }}
                                                         style={{fontFamily:'Poppins-Regular', fontSize:'17px', backgroundColor:'#E6E6E6',borderRadius:'10px',paddingLeft:'50px', paddingRight:'10px'}}
                                                     />
                                                     <Form.Check
                                                         inline
                                                         label="Perempuan"
-                                                        name="group1"
+                                                        name="gender"
+                                                        value="female"
                                                         type={type}
                                                         id={`inline-${type}-2`}
+                                                        onClick={(e) => {
+                                                            setForms(() => ({
+                                                                ...forms,
+                                                                gender: e.target.value
+                                                            }))
+                                                        }}
                                                         style={{fontFamily:'Poppins-Regular', fontSize:'17px', backgroundColor:'#E6E6E6',borderRadius:'10px',paddingLeft:'50px', paddingRight:'10px'}}
                                                     />
                                                     </div>
@@ -304,14 +401,14 @@ const ReservasiCovid = () => {
                                             onChange={(e) => {
                                                 setForms(() => ({
                                                     ...forms,
-                                                    nik: e.target.value
+                                                    address: e.target.value
                                                 }))
                                             }}
                                             style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}
                                     />
                                 </div>
 
-                                <Button onClick={handleOpen} style={{marginBottom:'20px', width:'30%', justifyContent:'center', alignItems:'center', alignSelf:'center'}}>Simpan Form</Button>
+                                <Button onClick={handleDaftar} style={{marginBottom:'20px', width:'30%', justifyContent:'center', alignItems:'center', alignSelf:'center'}}>Simpan Form</Button>
 
                             </Form.Group>
                             {/* </MainForm> */}

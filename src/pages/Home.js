@@ -19,6 +19,7 @@ import Card from 'react-bootstrap/Card';
 import Aos from "aos";
 import "aos/dist/aos.css";
 import Modal from 'react-bootstrap/Modal';
+import axios from "axios";
 
 
 const Content = styled.div`
@@ -113,12 +114,8 @@ const Home = () => {
     
     const isAnyToken = JSON.parse(localStorage.getItem('token'));
     const navigate = useNavigate()
-    const { authToken } = useAuth();
-
-    // axios.get(`http://localhost:5000/dashboard/`).then((res) => {
-    //     console.log(res);
-    // // setPost(response.data);
-    // }).catch(err => console.log(err));
+    const { setAndGetTokens, idCurrentUser, authToken} = useAuth();
+    const [data, setData] = useState([]); 
 
     useEffect(() => {
         Aos.init({duration: 2000});
@@ -127,7 +124,19 @@ const Home = () => {
     const [open, setOpen] = React.useState(false);
     const handleClose = () => setOpen(false);
 
-    const handleEnter = async(e) => {
+    // getnama
+    // fetch(`https://ipsi-vaccin-api-ec7cf074abb5.herokuapp.com/v1/users/${idCurrentUser}`, {
+    //         method: 'GET',
+    //         headers: {
+    //             'Content-type': 'application/json',
+    //             'Authorization': `Bearer ${isAnyToken}`, // notice the Bearer before your token
+    //         },
+    //     })
+    //     .then(response => response.json()) 
+    //     .then(data => setData(data)); 
+    //     console.log(data.data.fullName);
+
+    const handleEnter = async(e) => {       
         if(authToken != null){
             if(e.target.value == 'vaksin'){
                 navigate("/reservasi")

@@ -56,8 +56,15 @@ function App() {
 		
 	};
 
+	const isAnyUser = JSON.parse(localStorage.getItem('idUser'));
+	const [idCurrentUser, setIdUserCurrent] = useState(isAnyUser)
+	const setIdUser = (id) => {
+		localStorage.setItem('idUser', JSON.stringify(id));
+		setIdUserCurrent(id);
+	}
+
 	return (
-		<AuthContext.Provider value={{authToken, setAndGetTokens}}>
+		<AuthContext.Provider value={{authToken, setAndGetTokens,setIdUser, idCurrentUser}}>
 			<GlobalStyles></GlobalStyles>
 			<ScrollTop />
 			<Routes>
@@ -82,7 +89,7 @@ function App() {
 				}/> */}
 
 				<Route path="/reservasi" element={
-						<Reservasi />
+					<Reservasi />
 				}/>
 
 				<Route path="/reservasicovid" element={
