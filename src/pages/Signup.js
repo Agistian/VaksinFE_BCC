@@ -122,7 +122,7 @@ const Signup = () => {
 		console.log(forms.gender);
 
 		try {
-            const loginResponse = await axios.post('https://ipsi-vaccin-api-ec7cf074abb5.herokuapp.com/v1/users/register', {
+            const loginResponse = await axios.post('https://ipsi-vaccine-api-09047cb59b33.herokuapp.com/v1/users/register', {
                 ...forms,
             });
             console.log("berhasil");

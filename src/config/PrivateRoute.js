@@ -11,5 +11,5 @@ export const PrivateRoute = ({ children }) => {
 export const RestrictedRoute = ({ children }) => {
 	const { authToken } = useAuth();
 
-	return authToken ? <Navigate to={-1} /> : children;
+	return authToken ? <Navigate to="/" /> : children;
 };

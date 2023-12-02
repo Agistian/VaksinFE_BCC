@@ -143,22 +143,19 @@ const DafVaksin = () => {
 
 		try {
             const daftarResponse = await axios.post(
-                `https://ipsi-vaccin-api-ec7cf074abb5.herokuapp.com/v1/bookings/vaccine-schedule/${idCurrentUser}/${currentSchedule}`, 
-                {...forms,}
-                // {
-                //     headers: {
-                //         'Content-type': 'application/json',
-                //         'Authorization': `Bearer ${isAnyToken}`,
-                //     }
-                // }
+                `https://ipsi-vaccine-api-09047cb59b33.herokuapp.com/v1/bookings/vaccine-schedule/${idCurrentUser}/${currentSchedule}`, 
+                forms,
+                {
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': `Bearer ${isAnyToken}`,
+                    }
+                }
             );
-            // const loginResponse = await axios.post(`https://ipsi-vaccin-api-ec7cf074abb5.herokuapp.com/v1/bookings/vaccine-schedules/${idCurrentUser}/${currentSchedule}`,
-            // {
-            //     ...forms,
-            // });
             console.log("berhasil");
             console.log(daftarResponse);
-            // alert("Sign Up Berhasil");
+            handleOpen()
+            // alert("Reservasi Berhasil");
             // navigate('/login', { replace: true });
         } catch (error) {
             if (error.response) {
@@ -180,7 +177,10 @@ const DafVaksin = () => {
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleClose = () => {
+        setOpen(false)
+        navigate("/reservasi")  
+    };
     
     const navigate = useNavigate();
     const formatDate = useCallback((Date) => Date.toLocaleString(), []);

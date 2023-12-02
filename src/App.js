@@ -89,7 +89,10 @@ function App() {
 				}/> */}
 
 				<Route path="/reservasi" element={
-					<Reservasi />
+					<PrivateRoute>
+						<Reservasi />
+					</PrivateRoute>
+					
 				}/>
 
 				<Route path="/reservasicovid" element={

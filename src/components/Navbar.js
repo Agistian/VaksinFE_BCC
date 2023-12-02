@@ -250,7 +250,7 @@ const Teks = styled.div`
     useEffect(() => { 
       console.log(idCurrentUser);
       // setData(idCurrentUser)
-      fetch(`https://ipsi-vaccin-api-ec7cf074abb5.herokuapp.com/v1/users/${idCurrentUser}`, {
+      fetch(`https://ipsi-vaccine-api-09047cb59b33.herokuapp.com/v1/users/${idCurrentUser}`, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json',
@@ -258,7 +258,8 @@ const Teks = styled.div`
             },
         })
         .then(response => response.json()) 
-        .then(data => localStorage.setItem('currentUsername', JSON.stringify(data.data.username))); 
+        .then(data => 
+          localStorage.setItem('currentUsername', JSON.stringify(data.data.username))); 
       
         setData(JSON.parse(localStorage.getItem('currentUsername')))
       //   console.log(data.data.fullName);

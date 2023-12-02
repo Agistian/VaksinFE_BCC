@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../config/Auth';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import axios from "axios";
 
 const Content = styled.div`
 	width: 100%;
@@ -138,37 +139,34 @@ const ReservasiCovid = () => {
         console.log(forms.time);
         console.log(forms.testDate);
 
-		// try {
-        //     const daftarResponse = await axios.post(
-        //         `https://ipsi-vaccin-api-ec7cf074abb5.herokuapp.com/v1/covid-test-reservations`, 
-        //         {...forms,}
-        //         // {
-        //         //     headers: {
-        //         //         'Content-type': 'application/json',
-        //         //         'Authorization': `Bearer ${isAnyToken}`,
-        //         //     }
-        //         // }
-        //     );
-        //     // const loginResponse = await axios.post(`https://ipsi-vaccin-api-ec7cf074abb5.herokuapp.com/v1/bookings/vaccine-schedules/${idCurrentUser}/${currentSchedule}`,
-        //     // {
-        //     //     ...forms,
-        //     // });
-        //     console.log("berhasil");
-        //     console.log(daftarResponse);
-        //     // alert("Sign Up Berhasil");
-        //     // navigate('/login', { replace: true });
-        // } catch (error) {
-        //     if (error.response) {
-        //     // Respon dari server dengan kode status selain 2xx
-        //     console.error('Kesalahan pada respon server:', error.response.data);
-        //     } else if (error.request) {
-        //     // Tidak ada respon dari server
-        //     console.error('Tidak ada respon dari server:', error.request);
-        //     } else {
-        //     // Kesalahan lainnya
-        //     console.error('Kesalahan:', error.message);
-        //     }
-        // }
+		try {
+            const daftarResponse = await axios.post(
+                `https://ipsi-vaccine-api-09047cb59b33.herokuapp.com/v1/covid-test-reservations`, 
+                forms,
+                {
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': `Bearer ${isAnyToken}`,
+                    }
+                }
+            );
+            console.log("berhasil");
+            console.log(daftarResponse);
+            handleOpen()
+            // alert("Sign Up Berhasil");
+            // navigate('/login', { replace: true });
+        } catch (error) {
+            if (error.response) {
+            // Respon dari server dengan kode status selain 2xx
+            console.error('Kesalahan pada respon server:', error.response.data);
+            } else if (error.request) {
+            // Tidak ada respon dari server
+            console.error('Tidak ada respon dari server:', error.request);
+            } else {
+            // Kesalahan lainnya
+            console.error('Kesalahan:', error.message);
+            }
+        }
 	};
 	const [isError, setIsError] = useState({ status: false, message: '' });
 
@@ -176,7 +174,10 @@ const ReservasiCovid = () => {
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleClose = () => {
+        setOpen(false)
+        navigate("/")  
+    };
     const formatDate = useCallback((Date) => Date.toLocaleString(), []);
     
     const ambilDate = async(e) => {

@@ -176,7 +176,7 @@ const Sertif = () => {
                                 <div className="col-md-8" style={{display:'flex',flexDirection:'column'}}>
                                     <div className="col-md-12">
                                         <Teks2 style={{textAlign:'center', fontSize:'25px', fontWeight:'800px', marginTop:'20px'}}>
-                                            RIZKI SETIAWAN
+                                            MUHAMMAD DHZUHRI AGISTIAN
                                         </Teks2>
                                         <hr/>
                                     </div>

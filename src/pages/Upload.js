@@ -1,4 +1,4 @@
-import React ,{useState} from "react";
+import React ,{useState, useEffect} from "react";
 import styled from 'styled-components';
 import HideAppBar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -103,25 +103,104 @@ const style = {
 };
 
 const Upload = () => {
-    
+    const isAnyToken = JSON.parse(localStorage.getItem('token'));
     const {  setAndGetTokens } = useAuth();
 	const [forms, setForms] = useState({
 		email: '',
-		password: '',
-		name: '',
+		certificateId:'',
+        vaccineDate:'',
+        time:'',
+        firstName:'',
+        lastName:'',
+        NIK:'',
+        gender:'',
+        dateOfBirth:'',
+        age:'',
+        mobile:'',
+        email:'',
+        address:''
 	});
 	const [isError, setIsError] = useState({ status: false, message: '' });
-
 	const { authToken } = useAuth();
-
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
+
     const handleClose = () => {
         setOpen(false);
         navigate("/upload")
     };
     
     const navigate = useNavigate();
+    const IDBooking = JSON.parse(localStorage.getItem('IDCurrentBooking'));
+    const [data, setData] = useState([]); 
+
+    useEffect(() => {
+        console.log(IDBooking);
+        fetch(`https://ipsi-vaccine-api-09047cb59b33.herokuapp.com/v1/vaccine-results/${IDBooking}`, {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${isAnyToken}`, 
+            },
+        })
+        .then(response => response.json()) 
+        .then(data => setData(data.booking)); 
+    },[]);
+
+    // const filteredData = data.filter((el) => {
+    //     return (el);
+    // })
+
+    const handleUpload = async (e) => {
+		e.preventDefault()
+     
+        // console.log(isAnyToken);
+        // console.log(JSON.parse(localStorage.getItem('idScheduleCurrent')));
+		console.log(forms.firstName);
+        console.log(forms.lastName);
+		console.log(forms.NIK);
+		console.log(forms.email);
+		console.log(forms.age);
+		console.log(forms.mobile);
+		console.log(forms.gender);
+        console.log(forms.dateOfBirth);
+        console.log(forms.address);
+        console.log(forms.certificateId);
+        console.log(forms.vaccineDate);
+        console.log(forms.time);
+
+		// try {
+        //     const daftarResponse = await axios.post(
+        //         `https://ipsi-vaccin-api-ec7cf074abb5.herokuapp.com/v1/bookings/vaccine-schedule/${idCurrentUser}/${currentSchedule}`, 
+        //         {...forms,}
+        //         // {
+        //         //     headers: {
+        //         //         'Content-type': 'application/json',
+        //         //         'Authorization': `Bearer ${isAnyToken}`,
+        //         //     }
+        //         // }
+        //     );
+        //     // const loginResponse = await axios.post(`https://ipsi-vaccin-api-ec7cf074abb5.herokuapp.com/v1/bookings/vaccine-schedules/${idCurrentUser}/${currentSchedule}`,
+        //     // {
+        //     //     ...forms,
+        //     // });
+        //     console.log("berhasil");
+        //     console.log(daftarResponse);
+        //     // alert("Sign Up Berhasil");
+        //     // navigate('/login', { replace: true });
+        // } catch (error) {
+        //     if (error.response) {
+        //     // Respon dari server dengan kode status selain 2xx
+        //     console.error('Kesalahan pada respon server:', error.response.data);
+        //     } else if (error.request) {
+        //     // Tidak ada respon dari server
+        //     console.error('Tidak ada respon dari server:', error.request);
+        //     } else {
+        //     // Kesalahan lainnya
+        //     console.error('Kesalahan:', error.message);
+        //     }
+        // }
+	};
     return (
         <div>
             <HideAppBar/>
@@ -141,18 +220,20 @@ const Upload = () => {
                         </Teks>
 
                         <div style={{marginLeft:'70px', marginRight:'80px', marginTop:'40px',display:'flex', justifyContent:'center', alignItems:'center'}}>
+                            {/* {filteredData.map((item) => ( */}
                             {/* <MainForm className="col-md-12"  style={{display:'flex'}}> */}
                             <Form.Group className="col-md-12"  style={{display:'flex', flexDirection:'column'}} controlId="dob">
+                            
                                 <div>
                                     <div className='Bagi'>
                                         <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>Nomor Sertifikat :</Teks>
                                     </div>
                                     
-                                    <Form.Control type="text" name="alamat" placeholder="Masukkan nomor ID Sertifikat" 
+                                    <Form.Control type="text" name="certificateId" placeholder="Masukkan nomor ID Sertifikat" 
                                             onChange={(e) => {
                                                 setForms(() => ({
                                                     ...forms,
-                                                    nik: e.target.value
+                                                    certificateId: e.target.value
                                                 }))
                                             }}
                                             style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px'}}
@@ -165,7 +246,8 @@ const Upload = () => {
                                             <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>Tanggal Vaksin :</Teks>
                                         </div>
 
-                                        <Form.Control type="text" name="dob" placeholder="Tanggal Vaksin" style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}/>
+                                        <Form.Control type="text" name="dob" 
+                                        style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}/>
 
                                         <div style={{display:'flex', flexDirection:'column'}}>
                                             <div className='Bagi'>
@@ -173,10 +255,11 @@ const Upload = () => {
                                             </div>
                                             
                                             <Form.Control type="text" name="name" placeholder="Masukkan nama depan pasien" 
+                                            value= {data.firstName}
                                             onChange={(e) => {
                                                 setForms(() => ({
                                                     ...forms,
-                                                    name: e.target.value
+                                                    firstName: e.target.value
                                                 }))
                                             }}
                                             style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}
@@ -189,10 +272,11 @@ const Upload = () => {
                                             </div>
                                             
                                             <Form.Control type="text" name="nik" placeholder="Masukkan nik pasien" 
-                                            onChange={(e) => {
+                                           value= {data.NIK}
+                                           onChange={(e) => {
                                                 setForms(() => ({
                                                     ...forms,
-                                                    nik: e.target.value
+                                                    NIK: e.target.value
                                                 }))
                                             }}
                                             style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}
@@ -204,17 +288,26 @@ const Upload = () => {
                                             <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>Tanggal Lahir :</Teks>
                                         </div>
 
-                                        <Form.Control type="text" name="dob" placeholder="Date of Birth" style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}/>
+                                        <Form.Control type="text" name="dob" placeholder="Date of Birth" 
+                                        value= {data.dateOfBirth}
+                                        onChange={(e) => {
+                                            setForms(() => ({
+                                                ...forms,
+                                                dateOfBirth: e.target.value
+                                            }))
+                                        }}
+                                        style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}/>
 
                                         <div className='Bagi'>
                                             <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>No Telpon :</Teks>
                                         </div>
 
                                         <Form.Control type="text" name="notelp" placeholder="Masukkan no telp pasien" 
+                                            value= {data.mobile}
                                             onChange={(e) => {
                                                 setForms(() => ({
                                                     ...forms,
-                                                    notelp: e.target.value
+                                                    mobile: e.target.value
                                                 }))
                                             }}
                                             style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}
@@ -230,7 +323,7 @@ const Upload = () => {
                                             onChange={(e) => {
                                                 setForms(() => ({
                                                     ...forms,
-                                                    jam: e.target.value
+                                                    time: e.target.value
                                                 }))
                                             }}
                                             style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}
@@ -241,10 +334,11 @@ const Upload = () => {
                                         </div>
 
                                         <Form.Control type="text" name="namebehind" placeholder="Masukkan nama belakang pasien" 
+                                            value= {data.lastName}
                                             onChange={(e) => {
                                                 setForms(() => ({
                                                     ...forms,
-                                                    namebehind: e.target.value
+                                                    lastName: e.target.value
                                                 }))
                                             }}
                                             style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}
@@ -255,10 +349,11 @@ const Upload = () => {
                                         </div>
 
                                         <Form.Control type="text" name="namebehind" placeholder="Masukkan jenis kelamin" 
+                                            value= {data.gender}
                                             onChange={(e) => {
                                                 setForms(() => ({
                                                     ...forms,
-                                                    namebehind: e.target.value
+                                                    gender: e.target.value
                                                 }))
                                             }}
                                             style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}
@@ -269,6 +364,7 @@ const Upload = () => {
                                         </div>
 
                                         <Form.Control type="text" name="age" placeholder="Masukkan umur pasien" 
+                                            value= {data.age}
                                             onChange={(e) => {
                                                 setForms(() => ({
                                                     ...forms,
@@ -283,6 +379,7 @@ const Upload = () => {
                                         </div>
 
                                         <Form.Control type="text" name="email" placeholder="Masukkan email pasien" 
+                                            value= {data.email}
                                             onChange={(e) => {
                                                 setForms(() => ({
                                                     ...forms,
@@ -301,20 +398,22 @@ const Upload = () => {
                                     </div>
                                     
                                     <Form.Control type="textarea" name="alamat" placeholder="Masukkan alamat pasien" 
+                                            value= {data.address}
                                             onChange={(e) => {
                                                 setForms(() => ({
                                                     ...forms,
-                                                    nik: e.target.value
+                                                    address: e.target.value
                                                 }))
                                             }}
                                             style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}
                                     />
                                 </div>
 
-                                <Button onClick={handleOpen} style={{marginBottom:'20px', width:'30%', justifyContent:'center', alignItems:'center', alignSelf:'center'}}>Upload</Button>
-
+                                <Button onClick={handleUpload} style={{marginBottom:'20px', width:'30%', justifyContent:'center', alignItems:'center', alignSelf:'center'}}>Upload</Button>
+                            
                             </Form.Group>
                             {/* </MainForm> */}
+                            {/* ))} */}
                         </div>
                     </div>
                     

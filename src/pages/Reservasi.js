@@ -83,17 +83,17 @@ const Reservasi = () => {
     const isAnyToken = JSON.parse(localStorage.getItem('token'));
     const [data, setData] = useState([]); 
 
-    // useEffect(() => {
-    //     fetch(`https://ipsi-vaccin-api-ec7cf074abb5.herokuapp.com/v1/vaccine-schedules`, {
-    //         method: 'GET',
-    //         headers: {
-    //             'Content-type': 'application/json',
-    //             'Authorization': `Bearer ${isAnyToken}`, 
-    //         },
-    //     })
-    //     .then(response => response.json()) 
-    //     .then(data => setData(data.vaccine_schedules), console.log(data)); 
-    // },[]);
+    useEffect(() => {
+        fetch(`https://ipsi-vaccine-api-09047cb59b33.herokuapp.com/v1/vaccine-schedules`, {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${isAnyToken}`, 
+            },
+        })
+        .then(response => response.json()) 
+        .then(data => setData(data.vaccine_schedules), console.log(data)); 
+    },[]);
 
     const filteredData = data.filter((el) => {
             console.log("A");
@@ -134,7 +134,7 @@ const Reservasi = () => {
                 </div>
 
                 <div className="col-md-6" style={{paddingTop:'150px',height: '80%',justifyContent:'left', alignItems:'left', textAlign:'left'}}>
-                    {/* {filteredData.map((item) => (
+                    {filteredData.map((item) => (
                         <Shape key={item.id} data-aos="fade-up" className="col-md-8">
                             <div style={{display:'flex'}}>
                                 <div>
@@ -160,7 +160,7 @@ const Reservasi = () => {
                                 }} >Reservasi Sekarang</Button>
                             </div>
                         </Shape>
-                    ))} */}
+                    ))}
                 </div>
             </Content>
 
