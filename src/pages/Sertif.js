@@ -194,7 +194,7 @@ const Sertif = () => {
                                                 TANGGAL LAHIR
                                             </Teks2>
                                             <Teks2 style={{textAlign:'center',fontSize:'15px', fontWeight:'800px'}}>
-                                                30/10/2000
+                                                06/08/2001
                                             </Teks2>
                                         </div>
                                     </div>
@@ -210,7 +210,7 @@ const Sertif = () => {
                         </Teks2>
 
                         <Teks2 style={{textAlign:'center', fontSize:'25px', fontWeight:'800px'}}>
-                            11 November
+                            3 November 2023
                         </Teks2>
                         
                         {/* ini kalau gaada datanya */}
@@ -236,27 +236,6 @@ const Sertif = () => {
                             </Shape3>
                         </div> */}
                     </div>
-
-                    <Modal show={open} onHide={handleClose} style={{marginTop:'150px'}}>
-                       
-                        <Modal.Title style={{border:'none', display:'flex', marginTop:'20px',flexDirection:'column',justifyContent:'center', alignItems:'center'}}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="49" height="48" viewBox="0 0 49 48" fill="none">
-                                <path d="M24.5 44C30.0228 44 35.0228 41.7614 38.6421 38.1421C42.2614 34.5228 44.5 29.5228 44.5 24C44.5 18.4772 42.2614 13.4772 38.6421 9.85786C35.0228 6.23858 30.0228 4 24.5 4C18.9772 4 13.9772 6.23858 10.3579 9.85786C6.73858 13.4772 4.5 18.4772 4.5 24C4.5 29.5228 6.73858 34.5228 10.3579 38.1421C13.9772 41.7614 18.9772 44 24.5 44Z" fill="white" stroke="black" stroke-width="4" stroke-linejoin="round"/>
-                                <path d="M16.5 24L22.5 30L34.5 18" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-
-                            <Teks style={{textAlign:'center', fontSize:'25px',marginTop:'10px'}}>Data Form Telah disimpan!</Teks>
-
-                            <Teks2 style={{textAlign:'center'}}>Selamat data reservasi tes Covid Anda telah tersimpan!</Teks2>
-                            
-                            <div style={{display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center', marginBottom:'20px'}}>
-                                <Button onClick={handleClose}>
-                                    Selesai
-                                </Button>
-                            </div>
-                        </Modal.Title>
-                       
-                    </Modal>
             </Content>
             {/* <button onClick={htmlToImageConvert}>Download Image</button> */}
             <Footer style={{position:'absolute'}}/>

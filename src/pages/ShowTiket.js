@@ -160,7 +160,7 @@ const ShowTiket = () => {
                                             <Teks style={{fontSize:'18px', fontFamily:'Poppins-Regular', marginBottom: '10px'}}>Tanggal:</Teks>
                                         </div>
 
-                                        <Form.Control type="text" name="tanggal" value={'Senin, 13 November 2023'} style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}} disabled/>
+                                        <Form.Control type="text" name="tanggal" value={'Rabu, 22 November 2023'} style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}} disabled/>
                                     </div>
 
                                     <div className="col-md-6">
@@ -169,7 +169,7 @@ const ShowTiket = () => {
                                         </div>
 
                                         <Form.Control type="text" name="jam"
-                                           value={'08.00 - 11.00'}
+                                           value={'07.30 - 11.00'}
                                            disabled
                                            style={{fontSize: 15,fontFamily:'Poppins-Regular', backgroundColor:'#E6E6E6', borderRadius:'20px', width:'80%'}}
                                         />

@@ -122,7 +122,8 @@ const PesertaVaksin = () => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const [data, setData] = useState([]); 
-   
+    const [dataa, setDataa] = useState([]); 
+    const [dataaa, setDataaa] = useState([]); 
 
     useEffect(() => {
         fetch(`https://ipsi-vaccine-api-09047cb59b33.herokuapp.com/v1/vaccine-tickets/`, {
@@ -134,28 +135,45 @@ const PesertaVaksin = () => {
         })
         .then(response => response.json()) 
         .then(data => setData(data.arr)); 
+        console.log(data);
     },[]);
 
     const filteredData = data.filter((el) => {
-            return (el);
+        return (el);
     })
 
     const handleApprove = async(e) => {
         console.log(e);
         try {
-            const daftarResponse = await axios.put(
-                `https://ipsi-vaccine-api-09047cb59b33.herokuapp.com/v1/bookings/${e}`, 
-                 forms,
-                {
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Authorization': `Bearer ${isAnyToken}`,
+            fetch(`https://ipsi-vaccine-api-09047cb59b33.herokuapp.com/v1/vaccine-results/${e}`, {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': `Bearer ${isAnyToken}`, 
+                },
+            })
+            .then(response => response.json()) 
+            .then(data => setDataa(data.booking)); 
+
+            console.log(dataa);
+            
+            if (dataa.status == "Anda Telah Terdaftar!") {
+                alert("Pasien ini sudah diapprove, tidak perlu approve lagi!")
+            } else {
+                const daftarResponse = await axios.put(
+                    `https://ipsi-vaccine-api-09047cb59b33.herokuapp.com/v1/bookings/${e}`, 
+                     forms,
+                    {
+                        headers: {
+                            'Content-type': 'application/json',
+                            'Authorization': `Bearer ${isAnyToken}`,
+                        }
                     }
-                }
-            );
-            console.log("berhasil");
-            console.log(daftarResponse);
-            alert("Pasien telah disetujui");
+                );
+                console.log("berhasil");
+                console.log(daftarResponse);
+                alert("Pasien baru telah disetujui");
+            }
         } catch (error) {
             if (error.response) {
             // Respon dari server dengan kode status selain 2xx
@@ -190,6 +208,7 @@ const PesertaVaksin = () => {
     const handleBooking = async(e) => {
         console.log(e);
         localStorage.setItem('IDCurrentBooking', e);
+        // console.log(JSON.parse(localStorage.getItem('IDCurrentBooking')));
         navigate("/uploadhasil")
     }
 

@@ -245,12 +245,12 @@ const Teks = styled.div`
     };
 
     const navigate = useNavigate()
-    const [data, setData] = useState([]); 
+    const [dataUser, setData] = useState([]); 
 
     useEffect(() => { 
       console.log(idCurrentUser);
-      // setData(idCurrentUser)
-      fetch(`https://ipsi-vaccine-api-09047cb59b33.herokuapp.com/v1/users/${idCurrentUser}`, {
+      if (idCurrentUser != null) {
+          fetch(`https://ipsi-vaccine-api-09047cb59b33.herokuapp.com/v1/users/${idCurrentUser}`, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json',
@@ -258,12 +258,14 @@ const Teks = styled.div`
             },
         })
         .then(response => response.json()) 
-        .then(data => 
-          localStorage.setItem('currentUsername', JSON.stringify(data.data.username))); 
+        .then(data => setData(data.data))
+
+        // localStorage.setItem('currentRole', JSON.stringify(dataUser.username))
+      }
       
-        setData(JSON.parse(localStorage.getItem('currentUsername')))
-      //   console.log(data.data.fullName);
   }, []); 
+
+    // const userName = JSON.parse(localStorage.getItem('currentRole'));
    
       return (
           <React.Fragment >
@@ -282,7 +284,7 @@ const Teks = styled.div`
                         onClick={() => navigate("/")}
                         sx={{ my: 2, color: 'black', display: 'block', paddingTop:'7.5px', fontFamily: 'OpenSans-Bold'}}
                         style={{fontSize: '1.5em'}}
-                      >Selamat Datang &nbsp; {data}
+                      >Selamat Datang &nbsp; 
                       </Button>
                   ):(
                     <></>

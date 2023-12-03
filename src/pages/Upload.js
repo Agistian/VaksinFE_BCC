@@ -131,12 +131,13 @@ const Upload = () => {
     };
     
     const navigate = useNavigate();
-    const IDBooking = JSON.parse(localStorage.getItem('IDCurrentBooking'));
+    // const IDBooking = JSON.parse(localStorage.getItem('IDCurrentBooking'));
     const [data, setData] = useState([]); 
 
     useEffect(() => {
-        console.log(IDBooking);
-        fetch(`https://ipsi-vaccine-api-09047cb59b33.herokuapp.com/v1/vaccine-results/${IDBooking}`, {
+        console.log(JSON.parse(localStorage.getItem('IDCurrentBooking'))+1);
+        // console.log(`https://ipsi-vaccine-api-09047cb59b33.herokuapp.com/v1/vaccine-results/${JSON.parse(localStorage.getItem('IDCurrentBooking'))}`);
+        fetch(`https://ipsi-vaccine-api-09047cb59b33.herokuapp.com/v1/vaccine-results/11`, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json',
@@ -144,7 +145,8 @@ const Upload = () => {
             },
         })
         .then(response => response.json()) 
-        .then(data => setData(data.booking)); 
+        .then(data => setData(data.booking));
+        //setData(data.booking) 
     },[]);
 
     // const filteredData = data.filter((el) => {
@@ -168,6 +170,7 @@ const Upload = () => {
         console.log(forms.certificateId);
         console.log(forms.vaccineDate);
         console.log(forms.time);
+        handleOpen()
 
 		// try {
         //     const daftarResponse = await axios.post(
